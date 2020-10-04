@@ -5,18 +5,16 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager,\
                                             PermissionsMixin
 
 
-
 class UserManager(BaseUserManager):
 
     def create_user(self, email, password=None, **extras):
         if not email:
             raise ValueError("Please provide your email!!")
 
-        user = self.model(email= self.normalize_email(email), **extras)
+        user = self.model(email=self.normalize_email(email), **extras)
         user.set_password(password)
         user.save(using=self._db)
         return user
-
 
     def create_superuser(self, email, password, **extras):
         user = self.create_user(email, password, **extras)
@@ -25,7 +23,6 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
 
         return user
-
 
 
 class User(AbstractBaseUser, PermissionsMixin):

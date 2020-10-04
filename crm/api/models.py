@@ -1,22 +1,24 @@
 from django.db import models
 from accounts.models import User
-import os
-# Create your models here.
+import os, uuid
+
 
 def profile_directory(instance, filename):
     item = filename.split('.')
-    path = os.path.join('DP',str(instance.owner.id),"profile."+item[-1])
+    path = os.path.join('DP', str(instance.owner.id), "profile."+item[-1])
     return path
 
 
-# def personal files
-
-#def client files
-
+def files_directory(instance,filename):
+    item = filename.split('.')
+    name = str(uuid.uuid4())
+    path = os.path.join('Common', str(instance.owner.id), name+'.'+item[-1])
+    return path
 
 class Profile(models.Model):
-    owner = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
-    pic = models.ImageField(upload_to = profile_directory)
+    owner = models.OneToOneField(User, null=True, blank=True,
+                                 on_delete=models.CASCADE)
+    pic = models.ImageField(upload_to=profile_directory)
     name = models.CharField(max_length=64)
     address = models.TextField(max_length=128)
     position = models.CharField(max_length=64)
@@ -24,9 +26,10 @@ class Profile(models.Model):
     qualification = models.CharField(max_length=128)
     projects = models.ManyToManyField('Assignment')
     personal_notes = models.ManyToManyField('Notes')
-    performance = models.OneToOneField('Performance',on_delete=models.CASCADE)
+    performance = models.OneToOneField('Performance',
+                                       on_delete=models.CASCADE)
     clients = models.ManyToManyField('Client')
-    my_files = models.ManyToManyField('Files')
+    file = models.ManyToManyField('Files')
 
 
 class Client(models.Model):
@@ -41,16 +44,16 @@ class Client(models.Model):
     email = models.EmailField(max_length=64)
     contact = models.IntegerField()
     company = models.CharField(max_length=64)
-    sector = models.CharField(max_length=24, choices=SECTORS )
+    sector = models.CharField(max_length=24, choices=SECTORS)
     est_value = models.IntegerField()
-    files = models.ManyToManyField('Files')
+    file = models.ManyToManyField('Files')
     deal_status = models.BooleanField(default=False)
     lead_status = models.BooleanField(default=False)
     orders = models.ManyToManyField('Order')
     created = models.DateTimeField(auto_now=True)
-    date_closed = models.DateTimeField(null=True,blank=True)
+    date_closed = models.DateTimeField(null=True, blank=True)
     notes = models.ManyToManyField('Notes')
-    created_by = models.ForeignKey('Profile',on_delete=models.CASCADE)
+    created_by = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
 
 class Assignment(models.Model):
@@ -67,9 +70,9 @@ class Assignment(models.Model):
     type = models.CharField(max_length=64, choices=TYPES)
     location = models.CharField(max_length=64)
     dueday = models.DateTimeField()
-    completed = models.BooleanField(default = False)
-    members = models.ManyToManyField('Members',blank=True)
-    created_by = models.ForeignKey('Profile',on_delete=models.CASCADE)
+    completed = models.BooleanField(default=False)
+    members = models.ManyToManyField('Members', blank=True)
+    created_by = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
 
 class Members(models.Model):
@@ -88,13 +91,14 @@ class Notes(models.Model):
     type = models.CharField(max_length=64, choices=TYPES)
     date = models.DateTimeField(auto_now=True)
     description = models.TextField(max_length=128)
-    completed = models.BooleanField(default = False)
+    completed = models.BooleanField(default=False)
     created_by = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
 
 class Files(models.Model):
+    owner = models.ForeignKey('profile', on_delete=models.CASCADE)
     name = models.CharField(max_length=36)
-    files = models.FileField()
+    files = models.FileField(upload_to=files_directory)
     created = models.DateTimeField(auto_now=True)
 
 
@@ -103,7 +107,8 @@ class Order(models.Model):
     quantity = models.IntegerField()
     demand = models.IntegerField()
     completed = models.BooleanField(default=False)
-    invoice = models.ForeignKey('Files', blank=True, null=True, on_delete=models.CASCADE)
+    invoice = models.ForeignKey('Files', blank=True, null=True,
+                                on_delete=models.CASCADE)
     created_by = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
 

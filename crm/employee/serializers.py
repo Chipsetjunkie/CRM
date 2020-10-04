@@ -1,13 +1,12 @@
-from api.models import Profile, Performance, Notes, Assignment, Order
+from api.models import Profile, Performance, Notes, Assignment, Order, Files, Client
 from rest_framework import serializers
+from rest_framework.response import Response
 
 
-
-class profileSerilalizer(serializers.ModelSerializer):
+class profileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['id','pic','name','address', 'position', 'contact', 'qualification']
-
+        fields = '__all__'
 
     def create(self, validated_data):
         request = self.context.get('request', None)
@@ -15,7 +14,7 @@ class profileSerilalizer(serializers.ModelSerializer):
         perf = Performance()
         perf.save()
         validated_data['performance'] = perf
-        user =Profile(**validated_data)
+        user = Profile(**validated_data)
         user.save()
         return user
 
@@ -23,7 +22,7 @@ class profileSerilalizer(serializers.ModelSerializer):
 class notesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notes
-        fields = ['id','type','description']
+        fields = ['id', 'type', 'description']
 
     def create(self, validated_data):
         request = self.context.get('request', None)
@@ -36,7 +35,7 @@ class notesSerializer(serializers.ModelSerializer):
 class assignmentSerializers(serializers.ModelSerializer):
     class Meta:
         model = Assignment
-        fields = ['id', 'heading', 'description', 'type', 'location', 'dueday', 'client']
+        fields = '__all__'
 
     def create(self, validated_data):
         request = self.context.get('request', None)
@@ -44,7 +43,6 @@ class assignmentSerializers(serializers.ModelSerializer):
         assignment = Assignment(**validated_data)
         assignment.save()
         return assignment
-
 
 
 class orderSerializer(serializers.ModelSerializer):
@@ -60,6 +58,30 @@ class orderSerializer(serializers.ModelSerializer):
         return order
 
 
-class AuthSerializer(serializers.Serializer):
-    email = serializers.CharField()
-    password =serializers.CharField(style={'input_type':'password'}, trim_whitespace=False)
+class fileUploadSerializer(serializers.Serializer):
+    TYPE =(
+        ('E','Employee'),
+        ('C', 'Client')
+    )
+    type = serializers.ChoiceField(choices= TYPE)
+    name = serializers.CharField(max_length=36)
+    create =  serializers.DateTimeField()
+    files = serializers.FileField()
+    client = serializers.IntegerField()
+
+    def create(self, validated_data):
+
+        request = self.context.get('request', None)
+        type = validated_data.pop('type')
+        id = validated_data.pop('client')
+        validated_data['owner'] = request.user.profile
+        if type == 'C':
+            data = Client.objects.get(id=id)
+        else:
+            data = request.user.profile
+        file = Files(**validated_data)
+        file.save()
+
+        data.file.add(file)
+        data.save()
+        return file
