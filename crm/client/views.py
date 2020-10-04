@@ -12,8 +12,8 @@ class ClientView(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
 
 class accessClientView(mixins.ListModelMixin, mixins.RetrieveModelMixin,
-                   mixins.DestroyModelMixin, viewsets.GenericViewSet,
-                   mixins.UpdateModelMixin):
+                       mixins.DestroyModelMixin, viewsets.GenericViewSet,
+                       mixins.UpdateModelMixin):
     """ Create Client Data """
     queryset = models.Client
     serializer_class = ClientSerializer

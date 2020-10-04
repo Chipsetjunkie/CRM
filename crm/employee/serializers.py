@@ -1,6 +1,5 @@
 from api.models import Profile, Performance, Notes, Assignment, Order, Files, Client
 from rest_framework import serializers
-from rest_framework.response import Response
 
 
 class profileSerializer(serializers.ModelSerializer):
@@ -59,13 +58,13 @@ class orderSerializer(serializers.ModelSerializer):
 
 
 class fileUploadSerializer(serializers.Serializer):
-    TYPE =(
-        ('E','Employee'),
+    TYPE = (
+        ('E', 'Employee'),
         ('C', 'Client')
     )
-    type = serializers.ChoiceField(choices= TYPE)
+    type = serializers.ChoiceField(choices=TYPE)
     name = serializers.CharField(max_length=36)
-    create =  serializers.DateTimeField()
+    create = serializers.DateTimeField()
     files = serializers.FileField()
     client = serializers.IntegerField()
 

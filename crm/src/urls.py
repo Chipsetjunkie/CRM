@@ -20,9 +20,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('frontend.urls')),
     path('', include('accounts.urls')),
     path('', include('employee.urls')),
-    path('', include('client.urls'))
+    path('', include('client.urls')),
     ]
 
 if settings.DEBUG:

@@ -1,6 +1,7 @@
 from django.db import models
 from accounts.models import User
-import os, uuid
+import os
+import uuid
 
 
 def profile_directory(instance, filename):
@@ -9,11 +10,12 @@ def profile_directory(instance, filename):
     return path
 
 
-def files_directory(instance,filename):
+def files_directory(instance, filename):
     item = filename.split('.')
     name = str(uuid.uuid4())
     path = os.path.join('Common', str(instance.owner.id), name+'.'+item[-1])
     return path
+
 
 class Profile(models.Model):
     owner = models.OneToOneField(User, null=True, blank=True,

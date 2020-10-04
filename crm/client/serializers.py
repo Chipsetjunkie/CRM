@@ -5,7 +5,7 @@ from api import models
 class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Client
-        fields = ['id','name', 'email', 'contact', 'sector', 'est_value']
+        fields = ['id', 'name', 'email', 'contact', 'sector', 'est_value']
 
     def create(self, validated_data):
         request = self.context.get('request', None)

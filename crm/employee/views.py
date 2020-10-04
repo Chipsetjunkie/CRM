@@ -6,7 +6,7 @@ from .serializers import profileSerializer, notesSerializer,\
 from api import models
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.settings import api_settings
+
 
 class EmployeeView(mixins.CreateModelMixin, viewsets.GenericViewSet):
     """ Creates employee """
@@ -15,11 +15,11 @@ class EmployeeView(mixins.CreateModelMixin, viewsets.GenericViewSet):
     permission_classes = [IsAuthenticated]
 
 
-### Permission should be revoken.. this method is only for testing,
+# Permission should be revoken.. this method is only for testing,
 # Tweak query for admin
 class accessEmployeeView(mixins.ListModelMixin, mixins.RetrieveModelMixin,
-                   mixins.DestroyModelMixin, viewsets.GenericViewSet,
-                   mixins.UpdateModelMixin):
+                         mixins.DestroyModelMixin, viewsets.GenericViewSet,
+                         mixins.UpdateModelMixin):
     """ Update employee views and mainly for files """
     serializer_class = profileSerializer
     permission_classes = [IsAuthenticated]
@@ -115,4 +115,4 @@ class fileView(mixins.CreateModelMixin, viewsets.GenericViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        return Response({'message':'Aok'}, status=status.HTTP_201_CREATED)
+        return Response({'message': 'Aok'}, status=status.HTTP_201_CREATED)
