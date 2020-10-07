@@ -9,17 +9,7 @@
 
 
 */
-@import url('https://fonts.googleapis.com/css2?family=Barlow&display=swap');
 
-body{
-  font-family: 'Barlow';
-  font-size: 16px;
-  line-height: 12px;
-  background: rgb(175,182,226);
-  background-image: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%); 
-  background-repeat: no-repeat;
-  height: 88vh;
-}
 
 .reveals-main{
   width: 15%;

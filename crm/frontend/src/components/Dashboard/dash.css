@@ -1,0 +1,8 @@
+#dash-body{
+  position: absolute;
+  background: white;
+  width: 100vw;
+  height: 100vh;
+  left:-2px;
+  top:-2px;
+}
