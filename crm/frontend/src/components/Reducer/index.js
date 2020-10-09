@@ -1,6 +1,10 @@
 import {combineReducers} from 'redux';
-import {AuthUser} from './auth';
+import {AuthReducer} from './auth';
+import {ErrorReducer} from './error';
+import {EmployeeReducer} from './profile';
 
 export const rootReducer = combineReducers({
-  AuthUser
+  AuthReducer,
+  ErrorReducer,
+  EmployeeReducer
 })

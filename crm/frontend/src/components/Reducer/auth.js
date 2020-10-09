@@ -2,22 +2,32 @@ import * as actiontypes from  "../Actions/types";
 
 const initialState = {
     token:localStorage.getItem('token'),
-    isAuthenticated:null,
+    isAuthenticated:true,
     loading:true,
 }
 
 
-export const AuthUser = (state= initialState, action) =>{
-    switch (action.type) {
-      case actiontypes.REGISTER_SUCCESS:
-        localStorage.setItem('token',payload.token)
+export const AuthReducer = (state= initialState, action) =>{
+
+    const {type,payload} = action
+    switch (type) {
+      case actiontypes.LOGIN:
+        console.log(type,payload)
+        localStorage.setItem('token',payload.access);
+        localStorage.setItem('refresh', payload.refresh);
         return {
-          ...initialState,
-          isAuthenticated:True,
+          ...state,
+          isAuthenticated:true,
           loading:false
         }
 
-        break;
+      case actiontypes.AUTH_CANCEL:
+          console.log("enteref cancel")
+          return {
+            ...state,
+            isAuthenticated:false
+          }
+
       default:
         return state
     }

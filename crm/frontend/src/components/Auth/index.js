@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import {Spring, animated , config} from 'react-spring/renderprops';
 import Login from '../Login';
 import Register from '../Register';
-import {Spring, animated , config} from 'react-spring/renderprops';
 import './Auth.css';
+
 
 class Auth extends Component {
   state = {
-    flipped:false
+    flipped:false,
   }
 
   toggle = e => {
@@ -14,6 +15,7 @@ class Auth extends Component {
   }
 
   render() {
+    console.log(this.state.loggedIn)
     return (
       <>
       <div className="reveals-main">
@@ -54,5 +56,6 @@ class Auth extends Component {
   }
 
 }
+
 
 export default Auth;

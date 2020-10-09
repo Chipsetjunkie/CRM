@@ -1,0 +1,48 @@
+.notifcation{
+  display: inline;
+  margin:20px;
+  display: flex;
+  border-radius: 5px;
+  border:1px solid black rgba(0,0,0,0.1);
+  background: rgba(0,0,0,0.8);
+
+}
+
+#notif-body{
+  font-size: 13px;
+  align-self: center;
+  color:white;
+  margin-left: 15%;
+  line-height: 20px;
+}
+
+.span{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.noti-red{
+  border: 1px solid rgb(238,166,166);
+  margin-left:20px;
+  box-shadow: 0 0 5px 1px rgba(190, 11, 9),
+              0 0 2px 1px rgba(107, 4, 4, 0.5),
+              0 0 3px 1px rgba(55, 4, 4,0.5);
+}
+
+
+.noti-yellow{
+  border: 1px solid rgb(251, 251, 205);
+  margin-left:20px;
+  box-shadow: 0 0 5px 1px rgb(210, 212, 68),
+              0 0 5px 1px rgba(61, 58, 20 ,0.2),
+    	        0 0 3px 1px rgba(44, 52, 20, 0.3)
+}
+
+
+.noti-green{
+  border: 1px solid rgb(201, 240, 168);
+  margin-left:20px;
+  box-shadow: 0 0 2px 1px rgb(78, 208, 16),
+              0 0 4px 1px rgba(80, 187, 39,0.5),
+    	        0 0 3px 1px rgba(4, 76, 4, 0.8);
+}

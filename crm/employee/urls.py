@@ -24,7 +24,7 @@ router.register('file', views.fileView, 'createfile')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('login', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('refresh', TokenRefreshView.as_view(), name='toekn_refresh'),
-    path('login/verify', TokenVerifyView.as_view(), name='token_verify')
+    path('api/login', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/refresh', TokenRefreshView.as_view(), name='toekn_refresh'),
+    path('api/login/verify', TokenVerifyView.as_view(), name='token_verify')
 ]

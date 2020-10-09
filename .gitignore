@@ -4,3 +4,6 @@ node_modules
 package-lock.json
 venv
 my_project_visualized.png
+main.js
+*.main.js
+*.png

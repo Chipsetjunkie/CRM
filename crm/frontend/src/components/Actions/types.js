@@ -1,6 +1,5 @@
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
-export const LOGIN_FAILED = " LOGIN_FAILED"
-export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
-export const REGISTER_FAIL = 'REGISTER_FAIL';
-export const REGISTER = 'REGISTER';
 export const LOGIN = 'LOGIN';
+export const ADD_ERROR = 'ADD_ERROR';
+export const REMOVE_ERROR = 'REMOVE_ERROR';
+export const GET_PROFILE = 'GET_PROFILE';
+export const AUTH_CANCEL = 'AUTH_CANCEL';

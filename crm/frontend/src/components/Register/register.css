@@ -32,7 +32,7 @@
   padding-bottom: 1em;
 }
 
-button{
+#createbutton{
   margin-top:10px;
   margin-left: 30%;
   width: 40%;
@@ -43,14 +43,15 @@ button{
   color: rgb(60, 179, 113);
   border: 2px solid rgb(146, 255, 193);
   transition: 0.2s;
+  outline: none;
 }
 
-button:hover{
+#createbutton:hover{
   background:rgb(146, 255, 193);
   color:black;
 }
 
-input{
+.input{
   color:white;
   background: rgba(0,0,0,0.5);
   padding: 10px;

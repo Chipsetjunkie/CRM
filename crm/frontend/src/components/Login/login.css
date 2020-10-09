@@ -45,6 +45,7 @@
   color: rgb(218,165,32);
   border: 2px solid rgb(218,165,32);
   transition: 0.2s;
+  outline: none;
 }
 
 #loginbutton:hover{
@@ -52,7 +53,8 @@
   color:black;
 }
 
-input{
+
+.input{
   color:white;
   background: rgba(0,0,0,0.5);
   padding: 10px;

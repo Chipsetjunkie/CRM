@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'rest_framework',
-    #'rest_framework_simplejwt',
+    'rest_framework_simplejwt',
     'accounts',
     'api',
     'employee',
@@ -64,11 +64,11 @@ GRAPH_MODELS = {
 
 ROOT_URLCONF = 'src.urls'
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
-#         'rest_framework_simplejwt.authentication.JWTAuthentication',
-#     ]
-# }
+REST_FRAMEWORK = {
+     'DEFAULT_AUTHENTICATION_CLASSES': [
+         'rest_framework_simplejwt.authentication.JWTAuthentication',
+     ]
+ }
 
 TEMPLATES = [
     {
