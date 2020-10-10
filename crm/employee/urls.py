@@ -1,10 +1,7 @@
 from django.urls import path, include
 from rest_framework import routers
-from rest_framework_simplejwt.views import (
-        TokenObtainPairView,
-        TokenRefreshView,
-        TokenVerifyView
-)
+
+from rest_framework.authtoken.views import obtain_auth_token
 
 from . import views
 
@@ -24,7 +21,6 @@ router.register('file', views.fileView, 'createfile')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('api/login', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/refresh', TokenRefreshView.as_view(), name='toekn_refresh'),
-    path('api/login/verify', TokenVerifyView.as_view(), name='token_verify')
+    path('api/login', obtain_auth_token, name='token_obtain_pair'),
+    path('api/logout', views.logoutUser.as_view(), name='token_verify')
 ]

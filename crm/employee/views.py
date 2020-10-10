@@ -1,11 +1,12 @@
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, viewsets;
+from rest_framework.views import APIView;
 from rest_framework.permissions import IsAuthenticated
 from .serializers import profileSerializer, notesSerializer,\
                             assignmentSerializers, orderSerializer,\
-                            fileUploadSerializer
-from api import models
-from rest_framework import status
-from rest_framework.response import Response
+                            fileUploadSerializer;
+from api import models;
+from rest_framework import status;
+from rest_framework.response import Response;
 
 
 class EmployeeView(mixins.CreateModelMixin, viewsets.GenericViewSet):
@@ -116,3 +117,13 @@ class fileView(mixins.CreateModelMixin, viewsets.GenericViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response({'message': 'Aok'}, status=status.HTTP_201_CREATED)
+
+
+class logoutUser(APIView):
+    def get(self, request, format=None):
+        # delete token
+        request.user.auth_token.delete()
+        data = {
+            "message": "logged out successfully!"
+        }
+        return Response(data)

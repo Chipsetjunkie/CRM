@@ -2,12 +2,18 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
 import { getProfile } from "../Actions/profile";
+import Sidepanel from "../Sidepanel";
 import "./dash.css";
 
 class Dashboard extends Component {
   state= {
     modal:false,
-    initialcheck:false
+    initialcheck:false,
+    active:"main"
+  }
+
+  changeState = menu =>{
+    this.setState({...this.state, active:menu})
   }
 
   componentDidMount(){
@@ -29,24 +35,24 @@ class Dashboard extends Component {
 
   render() {
     if (this.props.auth && !this.props.auth.isAuthenticated){
-       return <Redirect to="/login"/>;
-    }
-    console.log(this.state)
+     return <Redirect to="/login"/>;
+  }
 
     return (
       <>
-
+      <div className="Dashboard-Container">
+      <Sidepanel changeState={this.changeState} activeState={this.state.active}/>
+      <div className="Dashboard-body">
         { this.props.profile && this.props.profile.loading ? <div> loading </div> :
-        <>
+          <>
           {this.props.profile.profile.length < 1? <div> no profile </div> :
-            <div> YOu have something going </div>}
-        </>
-
+          <div> YOu have something going </div>}
+          </>
         }
-
+      </div>
+      </div>
       </>
       )
-
   }
 
 }

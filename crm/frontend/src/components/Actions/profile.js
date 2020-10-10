@@ -7,7 +7,7 @@ export const getProfile = () => dispatch =>{
 
   const config = {
       headers:{
-        'Authorization': 'Bearer ' +token
+        'Authorization': 'token ' +token
       }
   }
   console.log(config)

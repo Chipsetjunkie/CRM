@@ -13,13 +13,19 @@ export const AuthReducer = (state= initialState, action) =>{
     switch (type) {
       case actiontypes.LOGIN:
         console.log(type,payload)
-        localStorage.setItem('token',payload.access);
-        localStorage.setItem('refresh', payload.refresh);
+        localStorage.setItem('token',payload.token);
         return {
           ...state,
           isAuthenticated:true,
           loading:false
         }
+
+      case actiontypes.LOGOUT:
+          localStorage.setItem('token',null);
+          return {
+            ...state,
+            isAuthenticated:false
+          }
 
       case actiontypes.AUTH_CANCEL:
           console.log("enteref cancel")

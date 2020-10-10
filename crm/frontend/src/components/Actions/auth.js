@@ -37,7 +37,7 @@ export const login = (email, password) => dispatch =>{
         }
     }
 
-    const body = JSON.stringify({email, password});
+    const body = JSON.stringify({username:email, password});
 
     axios.post('api/login', body, config)
     .then(resp =>{
@@ -55,6 +55,28 @@ export const login = (email, password) => dispatch =>{
         setError("Incorrect format",'noti-red')
       ):dispatch(
         setError(Object.values(err.response.data)[0],'noti-red')
+      )
+    })
+}
+
+
+export const logout = () => dispatch =>{
+
+    axios.get('api/logout')
+    .then(resp =>{
+      dispatch({
+          type:actiontypes.LOGOUT,
+      })
+      dispatch(
+        setError("Logout Success !",'noti-green')
+      )
+      // dispatch(
+      //   setError(" Logged-In Successfully",'noti-green')
+      // )
+    })
+    .catch(err =>{
+      dispatch(
+        setError("Logout Failed !",'noti-red')
       )
     })
 }
