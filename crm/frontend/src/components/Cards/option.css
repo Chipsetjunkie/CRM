@@ -1,0 +1,70 @@
+.options{
+  margin-top: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  height: 3em;
+  width:10em;
+  background:rgb(7,7,22);
+  border-radius: 35px;
+  border: 2px solid rgba(0,0,0, 1);
+  box-shadow:0 10px 10px -10px rgba(100, 100 , 255,1);
+  padding-right: 20px;
+}
+
+.options.blue:hover .create-button-blue{
+  width: 25px;
+}
+
+.options.purple:hover .create-button-purple{
+  width: 25px;
+}
+
+.options.green:hover .create-button-green{
+  width: 25px;
+}
+
+
+#options-span{
+  color:white;
+  cursor: pointer;
+}
+
+
+.create-button-blue{
+  height: 10px;
+  width: 10px;
+  background: rgba(165,229,254);
+  border-radius: 50px;
+  box-shadow: 0 0 10px 1px rgba(106, 172, 255,0.2),
+              0 0 10px 2px rgba(46, 88, 255,0.5),
+              0 0 15px 2px rgba(46, 73, 242,1),
+             0 0 15px 2px rgba(56, 62, 208,0.2);
+  transition: 0.2s;
+}
+
+
+
+.create-button-purple{
+  height: 10px;
+  width: 10px;
+  background: rgba(248, 240, 251);
+  border-radius: 50px;
+  box-shadow: 0 0 10px 1px rgba(232, 94, 242,0.5),
+              0 0 10px 2px rgba(189, 21, 222,0.7),
+              0 0 15px 2px rgba(176, 31, 214,0.7),
+             0 0 15px 2px rgba(105, 20, 176,0.8);
+  transition: 0.2s;
+}
+
+.create-button-green{
+  height: 10px;
+  width: 10px;
+  background: rgba(202, 253, 86);
+  border-radius: 50px;
+  box-shadow: 0 0 10px 1px rgba(160, 215, 515),
+              0 0 10px 2px rgba(99, 142, 1),
+              0 0 15px 2px rgba(87, 125, 3);
+  transition: 0.2s;
+}

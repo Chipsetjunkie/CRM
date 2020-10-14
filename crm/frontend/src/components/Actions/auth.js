@@ -61,8 +61,15 @@ export const login = (email, password) => dispatch =>{
 
 
 export const logout = () => dispatch =>{
+    const token = localStorage.getItem('token')
 
-    axios.get('api/logout')
+    const config = {
+        headers:{
+          'Authorization': 'token ' +token
+        }
+    }
+
+    axios.get('api/logout', config)
     .then(resp =>{
       dispatch({
           type:actiontypes.LOGOUT,
@@ -70,9 +77,6 @@ export const logout = () => dispatch =>{
       dispatch(
         setError("Logout Success !",'noti-green')
       )
-      // dispatch(
-      //   setError(" Logged-In Successfully",'noti-green')
-      // )
     })
     .catch(err =>{
       dispatch(

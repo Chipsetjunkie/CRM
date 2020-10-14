@@ -4,9 +4,10 @@ body{
   font-family: 'Barlow';
   font-size: 16px;
   line-height: 12px;
-  background: #6f86d6;
+  background: #edf2f7;
+  /*background: #6f86d6;
   background-image: linear-gradient(#48c6ef,#6f86d6);
-  background-repeat: no-repeat;
+  background-repeat: no-repeat;*/
   height: 98vh;
 }
 

@@ -25,3 +25,35 @@ export const getProfile = () => dispatch =>{
     })
 })
 }
+
+export const createProfile = ({pic:pic, ...data}) => async dispatch =>{
+  const token = localStorage.getItem('token')
+
+  const config = {
+      headers:{
+        'Authorization': 'token ' +token,
+        'Content-Type': 'multipart/form-data'
+      }
+  }
+
+  var formData = new FormData();
+  formData.append("pic",pic[0])
+  for (var i of Object.entries(data)){
+    formData.append(i[0],i[1])
+  }
+  axios
+  .post('employee/', formData, config)
+  .then(resp =>{
+    dispatch(
+      setError(" Profile Created Successfully",'noti-green')
+    )
+    dispatch(getProfile())
+  })
+  .catch(err =>{
+    console.log(err)
+    dispatch(
+      setError(" Profile not created",'noti-red')
+    )
+  })
+
+}

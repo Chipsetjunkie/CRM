@@ -4,11 +4,27 @@ html,body{
 
 .Dashboard-Container{
   display: flex;
-  border: 1px solid black;
   height: 88vh;
 }
 
+
 .Dashboard-body{
-  background: rgba(111, 134, 214, 0.1) ;
+  width: 70%;
+}
+
+.Dashboard-content{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
   width: 100%;
+  min-width: 500px;
+  background: Azure;
+  height: 65vh;
+  overflow-y: scroll;
+}
+
+.Dashboard-MetaPanel{
+  display: flex;
+  flex-direction: column;
+  width: 20%;
 }

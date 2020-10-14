@@ -5,7 +5,7 @@ from rest_framework import serializers
 class profileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = '__all__'
+        fields = ['id', 'name', 'pic', 'qualification', 'address', 'position', 'contact']
 
     def create(self, validated_data):
         request = self.context.get('request', None)

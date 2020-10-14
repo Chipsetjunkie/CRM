@@ -7,6 +7,12 @@ module.exports = {
   entry: ['@babel/polyfill', './crm/frontend/src/index.js'],
   module: {
     rules: [
+      {
+        test:/\.(jpg|png)$/,
+        use:{
+            loader: 'url-loader',
+        }
+      },
 
       {
         test: /\.js$/,
@@ -27,8 +33,7 @@ module.exports = {
           },
         ],
       },
-
-
+      
     ]
   },
 

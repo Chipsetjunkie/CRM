@@ -7,3 +7,5 @@ my_project_visualized.png
 main.js
 *.main.js
 *.png
+migrations
+media

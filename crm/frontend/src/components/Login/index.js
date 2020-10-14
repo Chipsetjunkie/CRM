@@ -47,7 +47,7 @@ class Login extends Component {
       <>
 
         <div>
-          <form id="loginform" onSubmit={this.submitForm}>
+          <form id="loginform" onSubmit={this.submitForm} method="post">
             <h2 id="loginheading"> LOGIN</h2>
             <p><label htmlFor="email">Email</label></p>
             <p><input className="input" type="email" name="email" id="email" autoComplete="off" required onChange={this.changeHandler} ></input></p>

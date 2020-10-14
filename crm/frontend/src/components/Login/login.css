@@ -54,7 +54,7 @@
 }
 
 
-.input{
+#loginform >p>input{
   color:white;
   background: rgba(0,0,0,0.5);
   padding: 10px;
@@ -64,6 +64,7 @@
   border: 1px solid rgba(0,0,0,0.2);
   border-radius: 10px;
 }
+
 
 label{
   margin-left: 6%;

@@ -50,7 +50,7 @@ class Register extends Component {
         <p><label htmlFor="email">Email</label></p>
         <p><input className="input" type="email" id="email" name="email" required autoComplete="off" onChange={this.changehandler}></input></p>
         <p><label htmlFor="name">Name</label></p>
-        <p><input className="input" type="text" id="name" name="name" required autoComplete="off" onChange={this.changehandler}></input></p>
+        <p><input type="text" id="name" name="name" required autoComplete="off" onChange={this.changehandler}></input></p>
         <p><label htmlFor="password">Password</label></p>
         <p><input className="input" type="password" id="password" name="password" required autoComplete="off" onChange={this.changehandler}></input></p>
         <p><label htmlFor="password_re">Password Again</label></p>
