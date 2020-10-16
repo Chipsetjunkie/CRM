@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import {getClient} from '../Actions/client';
+
 import "./cCard.css";
 
 class ClientCard extends Component {
 
+  clickHandler = () =>{
+    this.props.getClient(this.props.client_id)
+    console.log(`clicked ${this.props.name}, ${this.props.client_id}`)
+  }
+
   render() {
     return (
-      <div className="client-card">
+      <div className="client-card" onClick={this.clickHandler}>
         <div id="client-alert-container">
         <div id={`client-alert-${this.props.color}`}></div>
         </div>
@@ -20,4 +28,4 @@ class ClientCard extends Component {
 
 }
 
-export default ClientCard;
+export default connect(null, {getClient})(ClientCard);

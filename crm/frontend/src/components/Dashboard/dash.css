@@ -14,7 +14,7 @@ html,body{
 
 .Dashboard-content{
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   flex-wrap: wrap;
   width: 100%;
   min-width: 500px;

@@ -8,12 +8,20 @@ class ClientForm extends Component {
     name:"",
     email: "",
     contact:"",
+    company:"",
     sector:"space",
-    est_value:""
+    est_value:"",
+    pic:""
   }
 
-  changeHandler = e =>{
-    this.setState({...this.state, [e.target.name]:e.target.value})
+  changeHandler = e => {
+
+    if (e.target.name!== "pic"){
+    this.setState({[e.target.name]:e.target.value})
+    }
+    else{
+      this.setState({[e.target.name]:e.target.files})
+    }
   }
 
   closeCard = e =>{
@@ -23,6 +31,7 @@ class ClientForm extends Component {
 
   submitHandler = e => {
     e.preventDefault()
+    console.log(this.state)
     this.props.createClient(this.state)
     this.setState({
       name:"",
@@ -30,7 +39,8 @@ class ClientForm extends Component {
       contact:"",
       company:"",
       sector:"space",
-      est_value:""
+      est_value:"",
+      pic:""
     })
     this.props.close()
   }
@@ -43,13 +53,16 @@ class ClientForm extends Component {
       <div className="form-body">
       <p><label htmlFor="name"> Name </label></p>
       <p><input type="text" name="name" value={this.state.name} onChange={this.changeHandler}></input></p>
+
       <p><label htmlFor="company"> Company </label></p>
-      <p><input type="company" name="company" value={this.state.company} onChange={this.changeHandler}></input></p>
+      <p><input type="text" name="company" value={this.state.company} onChange={this.changeHandler}></input></p>
+
       <p><label htmlFor="email"> Email </label></p>
       <p><input type="email" name="email" value={this.state.email} onChange={this.changeHandler}></input></p>
       <p><label htmlFor="contact"> Contact </label></p>
       <p><input type="text" name="contact" value={this.state.contact} onChange={this.changeHandler}></input></p>
       <p><label htmlFor="cars"> Category </label></p>
+      <div className="client-input-container">
       <select name="sector" onChange={this.changeHandler}>
           <option value="space">Space</option>
           <option value="electronics">Electronics</option>
@@ -57,6 +70,8 @@ class ClientForm extends Component {
           <option value="servers">Servers</option>
           <option value="robotics">Robotic</option>
       </select>
+      <input type="file" id="custom-file-upload" name="pic" onChange={this.changeHandler}></input>
+      </div>
       <p><label htmlFor="est"> Estimated Val. </label></p>
       <p><input id="est_value" type="text" name="est_value" value={this.state.est_value} onChange={this.changeHandler}></input></p>
       <div className="client_button_holder">

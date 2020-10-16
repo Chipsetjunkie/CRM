@@ -19,7 +19,7 @@ class Sidepanel extends Component {
   }
 
   displayMenu =() =>{
-    const options = ["main", "client", "calender", "employee", "files", "performance"]
+    const options = ["main", "client", "employee", "calender", "files", "performance"]
 
     return(options.map((option,index) =>(
         <Fragment key={index}>
@@ -33,7 +33,6 @@ class Sidepanel extends Component {
   }
 
   render() {
-    console.log(this.state.active)
     return (
       <div className="Dashboard-Sidebar">
           <div id="Sidebar-main">

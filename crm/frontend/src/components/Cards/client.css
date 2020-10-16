@@ -25,7 +25,7 @@ html,body{
   border-radius: 20px;
   box-shadow:0 50px 90px -20px rgba(0,0,0,0.8);
   width: 15%;
-  min-width: 320px;
+  min-width: 400px;
   background:rgb(7,7,30);
   height: 75%;
   min-height: 700px;
@@ -48,6 +48,7 @@ html,body{
   background: rgb(7,7,30);
   color:white;
   outline: none;
+  width: 90%;
 }
 
 
@@ -60,12 +61,37 @@ html,body{
  border-radius:10px;
 }
 
+.client-input-container{
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+
+
+.client-input-container input{
+  margin-left:30px;
+
+}
+
+#custom-file-upload {
+    border-radius: 10px;
+    border:1px solid rgba(59, 146, 29);
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+
+}
+
+
 .client_button_holder{
   padding-top:10px;
   display: flex;
   justify-content: space-around;
 }
 
+#client-submit{
+  padding: 10px;
+}
 
 #client-submit:hover{
   background: rgba(59, 146, 29);

@@ -4,6 +4,11 @@ import os
 import uuid
 
 
+def client_directory(instance, filename):
+    item = filename.split('.')
+    path = os.path.join('Client', str(instance.id), "profile."+item[-1])
+    return path
+
 def profile_directory(instance, filename):
     item = filename.split('.')
     path = os.path.join('DP', str(instance.owner.id), "profile."+item[-1])
@@ -42,6 +47,7 @@ class Client(models.Model):
         ('server', "servers"),
         ('robotics', "Robotics")
     )
+    pic = models.ImageField(upload_to=client_directory, blank=True)
     name = models.CharField(max_length=24)
     email = models.EmailField(max_length=64)
     contact = models.IntegerField()

@@ -1,0 +1,100 @@
+.grid-container-client {
+  margin-left: 20px;
+  width: 70%;
+  min-width:800px;
+  display: grid;
+  grid-template-areas:
+    'pic name name position position address address'
+    'pic company company contact contact empty empty';
+  border-radius: 10px;
+  box-shadow: 0 30px 30px -20px rgba(0,0,0,0.2);
+  padding-left: 40px;
+  background:white;
+}
+
+.grid-container-client > div {
+  text-align:left;
+  padding: 10px;
+  font-size: 13px;
+}
+
+.grid-container-client div> #profile-pic{
+  border-radius: 100%;
+}
+
+#Client-profile{
+  grid-area: pic;
+}
+
+#Client-Name{
+  position: relative;
+  right:40px;
+  top:10px;
+  grid-area:name;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+#Client-Company{
+  position: relative;
+  right:40px;
+  grid-area:company;
+  font-weight: lighter;
+  text-transform: capitalize;
+}
+
+#Client-Position{
+  position: relative;
+  top:10px;
+  grid-area:position;
+  border-left: 3px solid red;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+#Client-Contact{
+  border-left: 3px solid red;
+  grid-area:contact;
+}
+
+#Client-Address{
+   position: relative;
+  top:10px;
+  grid-area:address;
+  font-size:15px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+
+.Client-Body-Container{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.Client-Body-Message{
+  margin-left: 30px;
+  display: inline;
+  padding:18px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px -5px rgba(0,0,0,1);
+  background: white;
+}
+
+.Client-Icon{
+  box-shadow: 0 0 10px -5px rgba(0,0,0,1);
+  background: white;
+  width: 10px;
+  height: 10px;
+  padding: 5px;
+  border-radius: 100%;
+}
+
+.icon-color{
+  align-self: center;
+  height: 10px;
+  width: 10px;
+  background: red;
+  border-radius:100%;
+}

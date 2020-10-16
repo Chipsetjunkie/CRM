@@ -1,0 +1,60 @@
+.notes-form{
+  margin: 5em;
+  margin-left: 20em;
+  background: white;
+  border: 1px solid rgba(100,100,255,0.2);
+  width: 300px;
+  min-width: 300px;
+  padding: 40px;
+  border-radius:10px;
+  box-shadow: 0 20px 60px -30px rgba(100,100,255,0.45);
+
+}
+
+
+.notes-form>p>label{
+  color:black;
+}
+
+
+.notes-form> textarea{
+  width: 90%;
+  max-width: 299px;
+  border: 1px solid rgba(100,100,255,0.2);
+  padding: 10px;
+  border-radius: 10px;
+  resize:horizontal;
+}
+
+
+.notes-form>p>input{
+  width: 90%;
+  border: 1px solid rgba(100,100,255,0.2);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.notes-form>div>p>input{
+  width: 90%;
+  border: 1px solid rgba(100,100,255,0.2);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+
+
+.notes-form>div>p>input[type="submit"]{
+  background: rgba(100,100,255,0.5);
+  cursor: pointer;
+  margin-left: 1em;
+}
+
+
+.notes-form>div>p>input[type="submit"]:hover{
+  background: rgba(100,100,255,0.2);
+}
+
+.notes-submit-container{
+  display: flex;
+  justify-content: space-around;
+}
