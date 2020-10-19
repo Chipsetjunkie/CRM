@@ -7,7 +7,7 @@ import "./styles/cf.css";
 class ClientAddFile extends Component {
   state = {
     files:"",
-    name:""
+    name:"",
   }
 
 
@@ -18,7 +18,7 @@ class ClientAddFile extends Component {
       this.props.updateClientFile(this.state, this.props.client.client.id)
       this.setState({
         file:"",
-        name:""
+        name:"",
       })
       this.props.close()
     }
@@ -29,11 +29,11 @@ class ClientAddFile extends Component {
   }
 
   changeHandler = e => {
+
     if (e.target.name!== "files"){
     this.setState({[e.target.name]:e.target.value})
     }
     else{
-      console.log(e.target.files[0].size)
       this.setState({[e.target.name]:e.target.files[0]})
     }
   }

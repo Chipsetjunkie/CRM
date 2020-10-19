@@ -30,11 +30,11 @@ export const getFiles = id => async dispatch =>{
 }
 
 
-export const addFile = order => dispatch =>{
+export const addFile = file => dispatch =>{
 
     dispatch({
       type:actiontypes.ADD_FILE,
-      payload: note
+      payload: file
     })
 
 }

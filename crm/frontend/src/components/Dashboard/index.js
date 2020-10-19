@@ -115,7 +115,7 @@ class Dashboard extends Component {
           <>
           <InfoPanel pic={pic} name={name} sector={sector} company={company} contact={contact}/>
           <NavBar id={2} changepage={this.changeBody}/>
-          <Client id={id} active="orders"/>
+          <Client active="orders"/>
           </>
         )
         case "files":
@@ -123,7 +123,7 @@ class Dashboard extends Component {
           <>
           <InfoPanel pic={pic} name={name} sector={sector} company={company} contact={contact}/>
           <NavBar id={1} changepage={this.changeBody}/>
-          <Client id={id} active="files"/>
+          <Client active="files"/>
           </>
         )
 
@@ -161,14 +161,16 @@ class Dashboard extends Component {
           <>
           <InfoPanel pic={pic} name={name} sector={sector} company={company} contact={contact}/>
           <NavBar id={0} changepage={this.changeBody}/>
-          <Client id={id} active="notes"/>
+          <Client active="notes"/>
           </>
         )
         }
       }
       else{
         return(
-          <div> main</div>
+          <div>
+          <Client active="main" changeState = {this.changeState} changeBody = {this.changeBody}/>
+          </div>
         )
       }
       }

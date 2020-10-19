@@ -1,4 +1,15 @@
+.client-main-file-container{
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  min-width: 500px;
+  height: 65vh;
+  margin-top: 2em;
+}
+
 .file-card{
+  margin: 3em;
   background: white;
   border: 1px solid rgba(100,100,255,0.2);
   box-shadow: 0 20px 60px -30px rgba(100,100,255,0.45);

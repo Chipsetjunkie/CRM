@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Note from "../Cards/notes";
 import { Scrollbars } from 'react-custom-scrollbars';
+import ClientCard from "../Cards/cCard";
 
 import {connect} from 'react-redux';
 import {getNotes} from '../Actions/notes';
@@ -10,22 +11,59 @@ import {getFiles} from '../Actions/files';
 import "./styles/main_notes.css";
 import "./styles/main_order.css";
 import "./styles/main_files.css";
+import "./styles/main.css";
+
 
 class Client extends Component {
-  state = {
-    id:this.props.id
 
+  state = {
+    query:""
   }
 
   componentDidMount(){
+    if (this.props.client.client){
     if(this.props.notes.notes.length===0){
       this.props.getNotes(this.props.client.client.notes)
+    }
+    if(this.props.orders.orders.length===0){
       this.props.getOrders(this.props.client.client.orders)
+    }
+    if(this.props.files.files.length===0){
       this.props.getFiles(this.props.client.client.file)
+    }
+    }
+  }
+
+
+  changeHandler = e =>{
+    this.setState({...this.state, [e.target.name]:e.target.value})
+  }
+
+  displayMain = () => {
+    if(this.props.client.clients.length > 0){
+      return( this.props.client.clients.map((client,id) => client.company.includes(this.state.query)?(
+          <span key={id}>
+          <ClientCard
+          color="green"
+          client_id={client.id}
+          name={client.company}
+          est={String(client.est_value).slice(0,5)}
+          days="null"
+          stateChange = {this.props.changeState}
+          bodyChange = {this.props.changeBody}
+          />
+          </span>
+      ): ""
+    )
+  )
+    }
+    else{
+      return "Start by creating clients"
     }
   }
 
   displayNotes = () => {
+    console.log("enterd notes")
     const notes = this.props.notes.notes
     return notes.map((note,id) =>(
       <div key = {id}>
@@ -37,7 +75,7 @@ class Client extends Component {
 
   displayOrder = () => {
     return(
-    this.props.orders.orders.map((order,id) =>(
+    this.props.orders.orders.map((order,id) => (
       <div  key={id+order.item} className="order-container">
         <div className="order-body">
         <p>Item: <span>{order.item}</span></p>
@@ -55,7 +93,9 @@ class Client extends Component {
 
   displayFiles = () =>{
     return(
-      <div className="file-card">
+      this.props.files.files.map((file,id)=>(
+
+      <div key = {id+file.name} className="file-card">
           <div className="file-dropdown">
             <div id="file-menu">
               <p> Update</p>
@@ -66,13 +106,15 @@ class Client extends Component {
           </div>
           <div id="file-body">
             <p> X </p>
-            <p>name</p>
+            <p>{file.name}</p>
           </div>
           <div id="file-footer">
             <p>.xpx </p>
             <p> size </p>
           </div>
       </div>
+    )
+    )
     )
   }
 
@@ -101,14 +143,35 @@ class Client extends Component {
 
       :""}
       { this.props.active === 'files'?
-        <div className="client-main-body-container">
-          <Scrollbars style={{height: 600 }} autoHide>
+
+          <Scrollbars style={{height: 600, marginTop: "2em", width:"95%"}} autoHide>
+          <div className="client-main-file-container">
           {
              this.displayFiles()
           }
+          </div>
           </Scrollbars>
-        </div>
       :""}
+
+      { this.props.active === 'main'?
+          <>
+          <input type="text" id="search-query" name="query"
+          placeholder="search for clients"
+          onChange={this.changeHandler}
+          value = {this.state.query}>
+          </input>
+          <Scrollbars style={{height: 600, marginTop: "2em", width:"95%"}} autoHide>
+          <div className="client-main-body-container">
+          {
+             this.displayMain()
+          }
+          </div>
+          </Scrollbars>
+          </>
+      :""}
+
+
+
       </>
     );
   }

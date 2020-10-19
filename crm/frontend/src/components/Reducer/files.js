@@ -27,11 +27,11 @@ export const FileReducer = (state= initialState, action) =>{
 
       case actiontypes.ADD_FILE:
         console.log("entered reducer")
-        var notes = state.notes
-        notes.unshift(action.payload)
+        var files = state.files
+        files.unshift(action.payload)
         return{
           ...state,
-          files:notes
+          files:files
         }
 
       case actiontypes.GET_FILE:

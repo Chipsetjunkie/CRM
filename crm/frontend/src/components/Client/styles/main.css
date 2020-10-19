@@ -1,0 +1,18 @@
+#search-query{
+  margin: 2em;
+  margin-left: 5em;
+  padding:5px;
+  border: 0;
+  background: rgba(0,0,0,0);
+  border-bottom: 1px solid rgba(0,0,0,0.5);
+}
+
+.client-main-body-container{
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  min-width: 500px;
+  height: 65vh;
+  margin-top: 2em;
+}
