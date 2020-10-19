@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-
+import {resetClient} from '../Actions/client';
 import {connect} from 'react-redux';
 import {logout} from "../Actions/auth";
 import "./sidebar.css";
@@ -14,8 +14,15 @@ class Sidepanel extends Component {
   }
 
   clickHandler = e =>{
-    this.props.changeState(e.target.getAttribute('name'))
-    this.setState({active:e.target.getAttribute('name')})
+    const name = e.target.getAttribute('name')
+    if (name === "client"){
+      this.props.clientpage()
+      this.props.resetClient()
+    }
+    else{
+    this.props.changeState(name)
+    }
+    this.setState({active:name})
   }
 
   displayMenu =() =>{
@@ -51,4 +58,4 @@ class Sidepanel extends Component {
 }
 
 
-export default connect(null,{logout})(Sidepanel);
+export default connect(null,{logout, resetClient})(Sidepanel);

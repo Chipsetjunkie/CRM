@@ -1,0 +1,27 @@
+.custom-navbar{
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 20px -15px rgba(0,0,0,1);
+  width: 25em;
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  margin-left:1em;
+  margin-top:2em;
+}
+
+#active{
+  border: 1px solid rgba(100,100,255,0.5);
+  border-radius: 10px;
+}
+
+.custom-navbar span{
+  cursor: pointer;
+  padding: 10px;
+  border: 1px solid rgba(0,0,0,0);
+}
+
+.custom-navbar span:hover{
+  background: rgba(100,100,255,0.5);
+  border-radius: 10px;
+}

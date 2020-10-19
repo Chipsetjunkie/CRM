@@ -11,11 +11,13 @@ import ClientCard from "../Cards/cCard";
 import ClientAddFile from "../Client/clientfiles";
 import ClientAddNote from "../Client/clientnotes";
 import UpdateClient from "../Client/clientupdate";
+import ClientOrder from "../Client/clientorders";
 
-import "./dash.css";
+import "./styles/dash.css";
 
 //
 import InfoPanel from "./infopanel";
+import NavBar from "./navbar"
 // Client
 import Client from "../Client";
 import Employee from "../Employee";
@@ -41,9 +43,18 @@ class Dashboard extends Component {
 
 
   changeState = menu =>{
+    console.log("entered state change")
     this.setState({...this.state, active:menu})
   }
 
+
+  changeStateCard = () =>{
+    this.setState({...this.state, active:"client", body:"notes"})
+  }
+
+  changeStatecSide = () =>{
+    this.setState({...this.state, active:"client", body:"main"})
+  }
 
   check_Profile  = () =>{
 
@@ -53,6 +64,7 @@ class Dashboard extends Component {
 
 
   changeBody = tag => {
+    console.log("entered body change")
     this.setState({...this.state, body:tag})
   }
 
@@ -72,7 +84,15 @@ class Dashboard extends Component {
             {this.props.client.clients.length > 0?
               this.props.client.clients.map((client,id) =>(
                   <span key={id}>
-                  <ClientCard color="green" client_id={client.id} name={client.company} est={String(client.est_value).slice(0,5)} days="null"/>
+                  <ClientCard
+                  color="green"
+                  client_id={client.id}
+                  name={client.company}
+                  est={String(client.est_value).slice(0,5)}
+                  days="null"
+                  stateChange = {this.changeState}
+                  bodyChange = {this.changeBody}
+                  />
                   </span>
               )
             ):""
@@ -86,30 +106,27 @@ class Dashboard extends Component {
       }
     }
     if (this.state.active==="client"){
-      const {pic,name,sector,company, contact, position}= this.props.client.client
+      if (this.props.client.client){
+      const {id,pic,name,sector,company, contact, position}= this.props.client.client
 
       switch (this.state.body) {
-        case "update":
+        case "orders":
         return(
           <>
           <InfoPanel pic={pic} name={name} sector={sector} company={company} contact={contact}/>
-
+          <NavBar id={2} changepage={this.changeBody}/>
+          <Client id={id} active="orders"/>
           </>
         )
-        case "file":
+        case "files":
         return(
           <>
           <InfoPanel pic={pic} name={name} sector={sector} company={company} contact={contact}/>
-
+          <NavBar id={1} changepage={this.changeBody}/>
+          <Client id={id} active="files"/>
           </>
         )
-        case "notes":
-        return(
-          <>
-          <InfoPanel pic={pic} name={name} sector={sector} company={company} contact={contact}/>
 
-          </>
-        )
         case "update-form":
         return(
           <>
@@ -131,16 +148,31 @@ class Dashboard extends Component {
           <ClientAddNote close={()=>this.changeBody("main")}/>
           </>
         )
+
+        case "order-form":
+        return(
+          <>
+          <InfoPanel pic={pic} name={name} sector={sector} company={company} contact={contact}/>
+          <ClientOrder close={()=>this.changeBody("main")}/>
+          </>
+        )
         default:
         return(
           <>
           <InfoPanel pic={pic} name={name} sector={sector} company={company} contact={contact}/>
-          <Client group={false} />
+          <NavBar id={0} changepage={this.changeBody}/>
+          <Client id={id} active="notes"/>
           </>
         )
+        }
+      }
+      else{
+        return(
+          <div> main</div>
+        )
+      }
       }
 
-    }
     if (this.state.active==="employee"){
       const {pic, name, address, contact, position}= Object.values(this.props.profile.profile)[0]
       return(
@@ -180,11 +212,13 @@ class Dashboard extends Component {
       )
     }
     if (this.state.active==="client"){
+      //red option
       return(
         <>
         <Option color="green" text="update client" parentClickHandler={()=>this.changeBody("update-form")}/>
         <Option color="purple" text="Add files" parentClickHandler={()=>this.changeBody("file-form")}/>
         <Option color="blue" text="Add notes" parentClickHandler={()=>this.changeBody("notes-form")}/>
+        <Option color="blue" text="Add order" parentClickHandler={()=>this.changeBody("order-form")}/>
         </>
       )
     }
@@ -197,11 +231,12 @@ class Dashboard extends Component {
   }
 
 
+
     return (
       <>
       <div className="Dashboard-Container">
 
-          <Sidepanel changeState={this.changeState} activeState={this.state.active}/>
+          <Sidepanel changeState={this.changeState} activeState={this.state.active} clientpage={this.changeStatecSide}/>
 
           <div className="Dashboard-body">
 

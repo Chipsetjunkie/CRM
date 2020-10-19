@@ -26,6 +26,16 @@
   resize:horizontal;
 }
 
+.notes-form>p:nth-child(5){
+  padding-top:10px;
+
+}
+
+.notes-form>p:nth-child(3){
+  padding-top:10px;
+
+}
+
 
 .notes-form>p>input{
   width: 90%;
@@ -57,4 +67,26 @@
 .notes-submit-container{
   display: flex;
   justify-content: space-around;
+}
+
+.notes-types{
+  font-size: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  display: flex;
+}
+
+.notes-types > div{
+  padding:5px;
+  padding-right: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+}
+
+.notes-types > div>label{
+  margin-top: 1px;
+  color:black;
+
 }

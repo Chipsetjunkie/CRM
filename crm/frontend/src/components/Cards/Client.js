@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { createClient } from '../Actions/client';
 import {connect} from 'react-redux'
-import "./client.css";
+import "./styles/client.css";
 
 class ClientForm extends Component {
   state = {

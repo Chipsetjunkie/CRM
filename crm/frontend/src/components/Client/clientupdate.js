@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {updateClient} from "../Actions/client";
 import { connect } from 'react-redux';
-import "./cu.css";
+import "./styles/cu.css";
 
 class UpdateClient extends Component {
 

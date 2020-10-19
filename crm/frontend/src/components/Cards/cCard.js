@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {getClient} from '../Actions/client';
 
-import "./cCard.css";
+import "./styles/cCard.css";
 
 class ClientCard extends Component {
 
   clickHandler = () =>{
     this.props.getClient(this.props.client_id)
-    console.log(`clicked ${this.props.name}, ${this.props.client_id}`)
+    this.props.stateChange("client")
+    //console.log(`clicked ${this.props.name}, ${this.props.client_id}`)
   }
 
   render() {

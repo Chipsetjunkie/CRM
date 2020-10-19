@@ -63,6 +63,9 @@ class Client(models.Model):
     notes = models.ManyToManyField('Notes')
     created_by = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 
 class Assignment(models.Model):
     TYPES = (
@@ -100,6 +103,7 @@ class Notes(models.Model):
     date = models.DateTimeField(auto_now=True)
     description = models.TextField(max_length=128)
     completed = models.BooleanField(default=False)
+    tag = models.TextField(max_length=10, blank=True, null=True)
     created_by = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
 
@@ -107,6 +111,7 @@ class Files(models.Model):
     owner = models.ForeignKey('profile', on_delete=models.CASCADE)
     name = models.CharField(max_length=36)
     files = models.FileField(upload_to=files_directory)
+    tag = models.TextField(max_length=10, blank=True, null=True)
     created = models.DateTimeField(auto_now=True)
 
 
@@ -117,6 +122,7 @@ class Order(models.Model):
     completed = models.BooleanField(default=False)
     invoice = models.ForeignKey('Files', blank=True, null=True,
                                 on_delete=models.CASCADE)
+    tag = models.TextField(max_length=10, blank=True, null=True)                            
     created_by = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
 
