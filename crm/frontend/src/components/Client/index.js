@@ -21,16 +21,21 @@ class Client extends Component {
   }
 
   componentDidMount(){
+
     if (this.props.client.client){
-    if(this.props.notes.notes.length===0){
-      this.props.getNotes(this.props.client.client.notes)
-    }
-    if(this.props.orders.orders.length===0){
-      this.props.getOrders(this.props.client.client.orders)
-    }
-    if(this.props.files.files.length===0){
-      this.props.getFiles(this.props.client.client.file)
-    }
+      if (this.props.currentstate==="main"){
+        this.props.changeBody("notes")
+      }
+
+      if(this.props.notes.notes.length===0){
+        this.props.getNotes(this.props.client.client.notes)
+      }
+      if(this.props.orders.orders.length===0){
+        this.props.getOrders(this.props.client.client.orders)
+      }
+      if(this.props.files.files.length===0){
+        this.props.getFiles(this.props.client.client.file)
+      }
     }
   }
 

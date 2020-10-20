@@ -18,3 +18,8 @@ export const ADD_FILE = 'ADD_FILE';
 export const GET_FILES = 'GET_FILES';
 export const GET_FILE = 'GET_FILE';
 export const DELETE_FILE = 'DELETE_FILE';
+//Employee actiontypes
+export const ADD_FILE_EMP = 'ADD_FILE_EMP';
+export const  GET_FILES_EMP = 'GET_FILES_EMP';
+export const GET_NOTES_EMP =  'GET_NOTES_EMP';
+export const ADD_NOTE_EMP = 'ADD_NOTE_EMP';

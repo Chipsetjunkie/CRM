@@ -2,8 +2,8 @@ from rest_framework import mixins, viewsets;
 from rest_framework.views import APIView;
 from rest_framework.permissions import IsAuthenticated
 from .serializers import profileSerializer, notesSerializer,\
-                            assignmentSerializers, orderSerializer,\
-                            fileUploadSerializer;
+                          assignmentSerializers,filesSerializer,\
+                          profileGetSerializer
 from api import models;
 from rest_framework import status;
 from rest_framework.response import Response;
@@ -22,7 +22,7 @@ class accessEmployeeView(mixins.ListModelMixin, mixins.RetrieveModelMixin,
                          mixins.DestroyModelMixin, viewsets.GenericViewSet,
                          mixins.UpdateModelMixin):
     """ Update employee views and mainly for files """
-    serializer_class = profileSerializer
+    serializer_class = profileGetSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
@@ -31,36 +31,12 @@ class accessEmployeeView(mixins.ListModelMixin, mixins.RetrieveModelMixin,
         # return models.Profile.objects.all()
 
 
-class createNoteView(mixins.CreateModelMixin, viewsets.GenericViewSet):
-    """ Creates notes """
-    serializer_class = notesSerializer
-    queryset = models.Notes.objects.all()
-    permission_classes = [IsAuthenticated]
-
-
 class createAssignmentView(mixins.CreateModelMixin, viewsets.GenericViewSet):
     """ Creates assignment """
     serializer_class = assignmentSerializers
     queryset = models.Assignment.objects.all()
     permission_classes = [IsAuthenticated]
 
-
-class createOrderView(mixins.CreateModelMixin, viewsets.GenericViewSet):
-    """ Creates assignment """
-    serializer_class = orderSerializer
-    queryset = models.Order.objects.all()
-    permission_classes = [IsAuthenticated]
-
-
-class accessNoteView(mixins.ListModelMixin, mixins.RetrieveModelMixin,
-                     mixins.DestroyModelMixin, viewsets.GenericViewSet):
-    """ For deleting, updating and retreiving notes """
-    serializer_class = notesSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        noteslist = models.Notes.objects.filter(created_by=self.request.user.profile)
-        return noteslist
 
 
 class accessAssignmentView(mixins.ListModelMixin, mixins.RetrieveModelMixin,
@@ -75,48 +51,45 @@ class accessAssignmentView(mixins.ListModelMixin, mixins.RetrieveModelMixin,
         return assignmentlist
 
 
-class accessOrderView(mixins.ListModelMixin, mixins.UpdateModelMixin,
-                      mixins.RetrieveModelMixin, mixins.DestroyModelMixin,
-                      viewsets.GenericViewSet):
-    """ For deleting, updating and retreiving notes """
-    serializer_class = orderSerializer
-    permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        orderlist = models.Order.objects.filter(created_by=self.request.user.profile)
-        return orderlist
-
-
-class updateOrderView(mixins.UpdateModelMixin, viewsets.GenericViewSet):
-    """ Update Order values"""
-    serializer_class = orderSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        orderlist = models.Order.objects.filter(created_by=self.request.user.profile)
-        return orderlist
-
-
-class updateNoteView(mixins.UpdateModelMixin, viewsets.GenericViewSet):
-    """Update Note values"""
+class createNoteView(mixins.CreateModelMixin, viewsets.GenericViewSet):
+    """ Creates notes """
     serializer_class = notesSerializer
+    queryset = models.Notes.objects.all()
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        noteslist = models.Notes.objects.filter(created_by=self.request.user.profile)
-        return noteslist
+        notes = models.Notes.objects.filter(created_by=self.request.user.profile).order_by('-id')
+        return notes
 
-
-class fileView(mixins.CreateModelMixin, viewsets.GenericViewSet):
-    """ create a file and send to either employee or client"""
-    serializer_class = fileUploadSerializer
+class createFileView(mixins.CreateModelMixin, viewsets.GenericViewSet):
+    """ Creates notes """
+    serializer_class = filesSerializer
+    queryset = models.Files.objects.all()
     permission_classes = [IsAuthenticated]
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        return Response({'message': 'Aok'}, status=status.HTTP_201_CREATED)
+    def get_queryset(self):
+        files = models.Files.objects.filter(created_by=self.request.user.profile).order_by('-id')
+        return files
+
+class accessNoteView(mixins.ListModelMixin, mixins.RetrieveModelMixin,
+                     mixins.DestroyModelMixin, viewsets.GenericViewSet):
+        serializer_class = notesSerializer
+        permission_classes = [IsAuthenticated]
+
+        def get_queryset(self):
+            noteslist = models.Notes.objects.filter(created_by=self.request.user.profile).order_by("-id")
+            return noteslist
+
+
+class accessFileView(mixins.ListModelMixin, mixins.RetrieveModelMixin,
+                     mixins.DestroyModelMixin, viewsets.GenericViewSet):
+        serializer_class = filesSerializer
+        permission_classes = [IsAuthenticated]
+
+        def get_queryset(self):
+            filelist = models.Files.objects.filter(owner=self.request.user.profile).order_by("-id")
+            return filelist
 
 
 class logoutUser(APIView):

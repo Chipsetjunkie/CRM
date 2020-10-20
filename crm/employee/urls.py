@@ -7,16 +7,12 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register('employee', views.EmployeeView, 'employee')
-router.register('notes', views.createNoteView, 'create-notes')
-router.register('assignment', views.createAssignmentView, 'create-assignment')
-router.register('order', views.createOrderView, 'create-order')
-router.register('access/employee', views.accessEmployeeView, 'employee')
-router.register('access/notes', views.accessNoteView, 'access-notes')
-router.register('access/assignment', views.accessAssignmentView, 'access-assignment')
-router.register('access/order', views.accessOrderView, 'access-order')
-router.register('update/order', views.updateOrderView, 'update-order')
-router.register('update/note', views.updateNoteView, 'update-order')
-router.register('file', views.fileView, 'createfile')
+router.register('access/employee', views.accessEmployeeView, 'employee-access')
+router.register('create/employee/notes', views.createNoteView, 'notes')
+router.register('create/employee/files', views.createFileView, 'files')
+router.register('employee/notes', views.accessNoteView, 'notes-access')
+router.register('employee/files', views.accessFileView, 'files-access')
+
 
 
 urlpatterns = [

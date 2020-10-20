@@ -112,7 +112,6 @@ export const updateClient = (data,id) => dispatch =>{
     var formData = new FormData();
     if(data.pic ){
       const pic = data.pic
-      console.log(pic)
       delete data.pic
       if (typeof(pic) !=="string"){
 
@@ -120,7 +119,6 @@ export const updateClient = (data,id) => dispatch =>{
       }
     }
 
-    console.log(data)
     for (var i of Object.entries(data)){
       formData.append(i[0],i[1])
   }

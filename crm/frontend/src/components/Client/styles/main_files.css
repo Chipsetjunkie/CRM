@@ -10,6 +10,7 @@
 
 .file-card{
   margin: 3em;
+  margin-top:0;
   background: white;
   border: 1px solid rgba(100,100,255,0.2);
   box-shadow: 0 20px 60px -30px rgba(100,100,255,0.45);

@@ -1,10 +1,9 @@
-from api.models import Profile, Performance, Notes, Assignment, Order, Files, Client
 from rest_framework import serializers
-
+from api import models
 
 class profileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Profile
+        model = models.Profile
         fields = ['id', 'name', 'pic', 'qualification', 'address', 'position', 'contact']
 
     def create(self, validated_data):
@@ -18,9 +17,15 @@ class profileSerializer(serializers.ModelSerializer):
         return user
 
 
+class profileGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Profile
+        fields = "__all__"
+
+
 class notesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Notes
+        model = models.Notes
         fields = ['id', 'type', 'description']
 
     def create(self, validated_data):
@@ -33,7 +38,7 @@ class notesSerializer(serializers.ModelSerializer):
 
 class assignmentSerializers(serializers.ModelSerializer):
     class Meta:
-        model = Assignment
+        model = models.Assignment
         fields = '__all__'
 
     def create(self, validated_data):
@@ -44,43 +49,38 @@ class assignmentSerializers(serializers.ModelSerializer):
         return assignment
 
 
-class orderSerializer(serializers.ModelSerializer):
+class filesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Order
-        fields = ['id', 'item', 'quantity', 'demand']
+        model = models.Files
+        fields = ['id', 'name', 'files', 'tag']
+
+    def create(self, validated_data):
+        print("enterfile")
+        request = self.context.get('request', None)
+        validated_data['owner'] = request.user.profile
+        tag = validated_data.pop("tag")
+        if tag[0] =="e":
+            profile = models.Profile.objects.get(id=int(tag[1:]))
+            file = models.Files(**validated_data)
+            file.save()
+            profile.file.add(file.id)
+            profile.save()
+        return file
+
+
+class notesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Notes
+        fields = ['id', 'type', 'description', 'tag']
 
     def create(self, validated_data):
         request = self.context.get('request', None)
         validated_data['created_by'] = request.user.profile
-        order = Order(**validated_data)
-        order.save()
-        return order
-
-
-class fileUploadSerializer(serializers.Serializer):
-    TYPE = (
-        ('E', 'Employee'),
-        ('C', 'Client')
-    )
-    type = serializers.ChoiceField(choices=TYPE)
-    name = serializers.CharField(max_length=36)
-    create = serializers.DateTimeField()
-    files = serializers.FileField()
-    client = serializers.IntegerField()
-
-    def create(self, validated_data):
-
-        request = self.context.get('request', None)
-        type = validated_data.pop('type')
-        id = validated_data.pop('client')
-        validated_data['owner'] = request.user.profile
-        if type == 'C':
-            data = Client.objects.get(id=id)
-        else:
-            data = request.user.profile
-        file = Files(**validated_data)
-        file.save()
-
-        data.file.add(file)
-        data.save()
-        return file
+        tag = validated_data.pop("tag")
+        if tag[0] =="e":
+            profile = models.Profile.objects.get(id=int(tag[1:]))
+            notes = models.Notes(**validated_data)
+            notes.save()
+            profile.personal_notes.add(notes.id)
+            profile.save()
+        return notes

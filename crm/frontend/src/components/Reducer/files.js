@@ -2,7 +2,9 @@ import * as actiontypes from  "../Actions/types";
 
 const initialState = {
   files:[],
-  file:null
+  file:null,
+  files_emp:[],
+  file_emp:null
 }
 
 const clean_data = (id,data) =>{
@@ -47,6 +49,23 @@ export const FileReducer = (state= initialState, action) =>{
           files:notes,
           file: null
         }
+
+      case actiontypes.GET_FILES_EMP:
+          const payload_emp = clean_data(action.payload.id, action.payload.data)
+          return{
+            ...state,
+            files_emp:payload_emp
+          }
+
+      case actiontypes.ADD_FILE_EMP:
+          console.log("entered reducer")
+          var files = state.files_emp
+          files.unshift(action.payload)
+          return{
+            ...state,
+            files_emp:files
+          }
+
 
       default:
         return state

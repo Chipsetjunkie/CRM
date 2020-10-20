@@ -2,7 +2,9 @@ import * as actiontypes from  "../Actions/types";
 
 const initialState = {
   notes:[],
-  note:null
+  note:null,
+  notesEmp:[],
+  noteEmp:null
 }
 
 const clean_data = (id,data) =>{
@@ -47,6 +49,22 @@ export const NotesReducer = (state= initialState, action) =>{
           notes:notes,
           note: null
         }
+
+      case actiontypes.GET_NOTES_EMP:
+          const payload_emp = clean_data(action.payload.id, action.payload.data)
+          return{
+            ...state,
+            notesEmp:payload_emp
+          }
+
+        case actiontypes.ADD_NOTE_EMP:
+          console.log("entered reducer")
+          var notes = state.notesEmp
+          notes.unshift(action.payload)
+          return{
+            ...state,
+            notesEmp:notes
+          }
 
       default:
         return state

@@ -8,10 +8,21 @@ import Profile from "../Profile";
 import Option from "../Cards/Option";
 import ClientForm from "../Cards/Client";
 import ClientCard from "../Cards/cCard";
+
+// Client meta functions
 import ClientAddFile from "../Client/clientfiles";
 import ClientAddNote from "../Client/clientnotes";
 import UpdateClient from "../Client/clientupdate";
 import ClientOrder from "../Client/clientorders";
+
+//Employee Meta function
+
+import EmployeeAddFile from "../Employee/emplFile";
+import EmployeeAddNote from "../Employee/emplNotes";
+import UpdateEmployee from "../Employee/emplUpdate";
+
+
+
 
 import "./styles/dash.css";
 
@@ -161,7 +172,7 @@ class Dashboard extends Component {
           <>
           <InfoPanel pic={pic} name={name} sector={sector} company={company} contact={contact}/>
           <NavBar id={0} changepage={this.changeBody}/>
-          <Client active="notes"/>
+          <Client active="notes" currentstate= {this.state.body} changeBody = {this.changeBody}/>
           </>
         )
         }
@@ -177,11 +188,50 @@ class Dashboard extends Component {
 
     if (this.state.active==="employee"){
       const {pic, name, address, contact, position}= Object.values(this.props.profile.profile)[0]
-      return(
-        <InfoPanel pic={pic} name={name} sector={address} company="Cynerza Inc" contact={contact}/>
-      )
+      switch (this.state.body) {
+        case "files":
+        return(
+          <>
+          <InfoPanel pic={pic} name={name} sector={address} company="Cynerza Inc" contact={contact}/>
+          <NavBar id={1} changepage={this.changeBody}/>
+          <Employee active="files"/>
+          </>
+        )
+
+        case "update-form":
+        return(
+          <>
+          <InfoPanel pic={pic} name={name} sector={address} company="Cynerza Inc" contact={contact}/>
+          <UpdateEmployee close={()=>this.changeBody("main")}/>
+          </>
+        )
+        case "file-form":
+        return(
+          <>
+          <InfoPanel pic={pic} name={name} sector={address} company="Cynerza Inc" contact={contact}/>
+          <EmployeeAddFile close={()=>this.changeBody("main")}/>
+          </>
+        )
+        case "notes-form":
+        return(
+          <>
+          <InfoPanel pic={pic} name={name} sector={address} company="Cynerza Inc" contact={contact}/>
+          <EmployeeAddNote close={()=>this.changeBody("main")}/>
+          </>
+        )
+
+        default:
+        return(
+          <>
+          <InfoPanel pic={pic} name={name} sector={address} company="Cynerza Inc" contact={contact}/>
+          <NavBar id={0} changepage={this.changeBody}/>
+          <Employee active="notes"/>
+          </>
+        )
+        }
 
     }
+
     if (this.state.active === "calender"){
       return(
         <Calender/>
@@ -213,7 +263,7 @@ class Dashboard extends Component {
         </>
       )
     }
-    if (this.state.active==="client"){
+    if (this.state.active==="client" && this.state.body !== "main"){
       //red option
       return(
         <>
@@ -221,6 +271,18 @@ class Dashboard extends Component {
         <Option color="purple" text="Add files" parentClickHandler={()=>this.changeBody("file-form")}/>
         <Option color="blue" text="Add notes" parentClickHandler={()=>this.changeBody("notes-form")}/>
         <Option color="blue" text="Add order" parentClickHandler={()=>this.changeBody("order-form")}/>
+        </>
+      )
+    }
+
+    if (this.state.active==="employee"){
+      //red option
+      return(
+        <>
+        <Option color="green" text="Update Profile" parentClickHandler={()=>this.changeBody("update-form")}/>
+        <Option color="purple" text="Add files" parentClickHandler={()=>this.changeBody("file-form")}/>
+        <Option color="blue" text="Add notes" parentClickHandler={()=>this.changeBody("notes-form")}/>
+
         </>
       )
     }
