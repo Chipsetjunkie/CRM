@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {inputvalidated} from '../Utils/formvalidation.js';
+import {inputvalidated, file_is_valid} from '../Utils/formvalidation.js';
 import {updateClientFile} from "../Actions/client";
 import { connect } from 'react-redux';
 import "./styles/cf.css";
@@ -34,7 +34,8 @@ class ClientAddFile extends Component {
     this.setState({[e.target.name]:e.target.value})
     }
     else{
-      this.setState({[e.target.name]:e.target.files[0]})
+      file_is_valid(e.target.files[0])?
+      this.setState({[e.target.name]:e.target.files[0]}):console.log("nope")
     }
   }
 
@@ -47,7 +48,7 @@ class ClientAddFile extends Component {
 
   render() {
 
-    console.log(this.state)
+    console.log("updated",this.state)
     return (
       <form className="file-form" method="post" onSubmit={this.submitHandler}>
       <p><label htmlFor="file"> Upload file </label></p>

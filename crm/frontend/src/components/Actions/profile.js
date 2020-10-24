@@ -12,7 +12,6 @@ export const getProfile = () => dispatch =>{
         'Authorization': 'token ' +token
       }
   }
-  console.log(config)
   axios
   .get('/access/employee', config)
   .then(resp=>{
@@ -27,6 +26,33 @@ export const getProfile = () => dispatch =>{
     })
 })
 }
+
+
+
+export const getAllProfiles = () => async dispatch =>{
+  const token = localStorage.getItem('token')
+
+  const config = {
+      headers:{
+        'Authorization': 'token ' +token
+      }
+  }
+  axios
+  .get('/access/all', config)
+  .then(resp=>{
+      dispatch({
+        type:actiontypes.GET_ALL_PROFILE,
+        payload: resp.data
+      })
+  })
+  .catch(err =>{
+    dispatch(
+      setError("Profile fetching failed",'noti-red')
+    )
+})
+}
+
+
 
 export const createProfile = ({pic:pic, ...data}) => async dispatch =>{
   const token = localStorage.getItem('token')
@@ -59,6 +85,7 @@ export const createProfile = ({pic:pic, ...data}) => async dispatch =>{
   })
 
 }
+
 
 
 export const updateProfile = (data,id) => dispatch =>{

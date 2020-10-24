@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
 import { getProfile } from "../Actions/profile";
 import {getClients} from "../Actions/client";
+import {getAssignments} from "../Actions/assignment";
 import Sidepanel from "../Sidepanel";
 import Profile from "../Profile";
 import Option from "../Cards/Option";
@@ -20,7 +21,7 @@ import ClientOrder from "../Client/clientorders";
 import EmployeeAddFile from "../Employee/emplFile";
 import EmployeeAddNote from "../Employee/emplNotes";
 import UpdateEmployee from "../Employee/emplUpdate";
-
+import Assignment from "../Employee/assignment";
 
 
 
@@ -125,7 +126,7 @@ class Dashboard extends Component {
         return(
           <>
           <InfoPanel pic={pic} name={name} sector={sector} company={company} contact={contact}/>
-          <NavBar id={2} changepage={this.changeBody}/>
+          <NavBar id={2} page={"client"} changepage={this.changeBody}/>
           <Client active="orders"/>
           </>
         )
@@ -133,7 +134,7 @@ class Dashboard extends Component {
         return(
           <>
           <InfoPanel pic={pic} name={name} sector={sector} company={company} contact={contact}/>
-          <NavBar id={1} changepage={this.changeBody}/>
+          <NavBar id={1} page={"client"} changepage={this.changeBody}/>
           <Client active="files"/>
           </>
         )
@@ -171,7 +172,7 @@ class Dashboard extends Component {
         return(
           <>
           <InfoPanel pic={pic} name={name} sector={sector} company={company} contact={contact}/>
-          <NavBar id={0} changepage={this.changeBody}/>
+          <NavBar id={0}  page={"client"} changepage={this.changeBody}/>
           <Client active="notes" currentstate= {this.state.body} changeBody = {this.changeBody}/>
           </>
         )
@@ -187,16 +188,27 @@ class Dashboard extends Component {
       }
 
     if (this.state.active==="employee"){
+      console.log("entered employee section")
       const {pic, name, address, contact, position}= Object.values(this.props.profile.profile)[0]
       switch (this.state.body) {
         case "files":
         return(
           <>
           <InfoPanel pic={pic} name={name} sector={address} company="Cynerza Inc" contact={contact}/>
-          <NavBar id={1} changepage={this.changeBody}/>
+          <NavBar id={1} page={"employee"} changepage={this.changeBody}/>
           <Employee active="files"/>
           </>
         )
+
+        case "assignments":
+        return(
+          <>
+          <InfoPanel pic={pic} name={name} sector={address} company="Cynerza Inc" contact={contact}/>
+          <NavBar id={2}  page={"employee"} changepage={this.changeBody}/>
+          <Employee active="assignment"/>
+          </>
+        )
+
 
         case "update-form":
         return(
@@ -220,11 +232,20 @@ class Dashboard extends Component {
           </>
         )
 
-        default:
+        case "Assignment-form":
         return(
           <>
           <InfoPanel pic={pic} name={name} sector={address} company="Cynerza Inc" contact={contact}/>
-          <NavBar id={0} changepage={this.changeBody}/>
+          <Assignment close={()=>this.changeBody("main")}/>
+          </>
+        )
+
+        default:
+        console.log("entered employee section tab")
+        return(
+          <>
+          <InfoPanel pic={pic} name={name} sector={address} company="Cynerza Inc" contact={contact}/>
+          <NavBar id={0} page={"employee"} changepage={this.changeBody}/>
           <Employee active="notes"/>
           </>
         )
@@ -270,7 +291,7 @@ class Dashboard extends Component {
         <Option color="green" text="update client" parentClickHandler={()=>this.changeBody("update-form")}/>
         <Option color="purple" text="Add files" parentClickHandler={()=>this.changeBody("file-form")}/>
         <Option color="blue" text="Add notes" parentClickHandler={()=>this.changeBody("notes-form")}/>
-        <Option color="blue" text="Add order" parentClickHandler={()=>this.changeBody("order-form")}/>
+        <Option color="orange" text="Add order" parentClickHandler={()=>this.changeBody("order-form")}/>
         </>
       )
     }
@@ -282,6 +303,7 @@ class Dashboard extends Component {
         <Option color="green" text="Update Profile" parentClickHandler={()=>this.changeBody("update-form")}/>
         <Option color="purple" text="Add files" parentClickHandler={()=>this.changeBody("file-form")}/>
         <Option color="blue" text="Add notes" parentClickHandler={()=>this.changeBody("notes-form")}/>
+        <Option color="orange" text="Add assignment" parentClickHandler={()=>this.changeBody("Assignment-form")}/>
 
         </>
       )

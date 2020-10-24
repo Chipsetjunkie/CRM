@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {inputvalidated} from '../Utils/formvalidation.js';
+import {inputvalidated, file_is_valid} from '../Utils/formvalidation.js';
 import {updateEmployeeFile} from "../Actions/profile";
 import { connect } from 'react-redux';
 import "../Client/styles/cf.css";
@@ -34,7 +34,9 @@ class EmployeeAddFile extends Component {
     this.setState({[e.target.name]:e.target.value})
     }
     else{
-      this.setState({[e.target.name]:e.target.files[0]})
+      file_is_valid(e.target.files[0])?
+      this.setState({[e.target.name]:e.target.files[0]}):
+      console.log("nope")
     }
   }
 

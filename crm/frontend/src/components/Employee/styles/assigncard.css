@@ -1,0 +1,89 @@
+/*lenght 150 */
+
+.Assign-Card{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+  background: white;
+  width: 12em;
+  height: 8em;
+  border-radius: 10px;
+  box-shadow: -3px 10px 20px -15px,
+               0px 0px 2px 0px rgba(0,0,0,0.2);
+  margin:2em;
+  margin-top: 0;
+}
+
+
+#assign-noti #bluespan{
+  height: 7em;
+  width: 2em;
+  border-radius: 20%;
+  border:3px solid rgba(46, 73, 242,1);
+  box-shadow: 0 0 5px 0px rgba(106, 172, 255,0.2),
+            0 0 5px 0px rgba(46, 88, 255,0.2),
+            0 0 5px 0px rgba(46, 73, 242,0.2),
+           0 0 5px 0px rgba(56, 62, 208,0.2);
+}
+
+
+#assign-noti #purplespan{
+  height: 7em;
+  width: 2em;
+  border-radius: 20%;
+  border:3px solid rgba(176, 31, 214,0.7);
+  box-shadow: 0 0 5px 0px rgba(232, 94, 242,0.1),
+              0 0 5px 0px rgba(189, 21, 222,0.1),
+              0 0 5px 0px rgba(176, 31, 214,0.1),
+             0 0 5px 0px rgba(105, 20, 176,0.6);
+}
+
+#assign-noti #yellowspan{
+  height: 7em;
+  width: 2em;
+  border-radius: 20%;
+  border:3px solid rgba(252, 240, 118);
+  box-shadow: 0 0 5px 0px rgba(255, 201, 91,0.1),
+              0 0 5px 0px rgba(255, 166, 63, 0.2),
+              0 0 5px 0px rgba(255, 67, 11, 0.2);
+}
+
+#assign-noti #greenspan{
+  height: 7em;
+  width: 2em;
+  border-radius: 20%;
+  border:3px solid rgba(150, 253, 0);
+  box-shadow: 0 0 5px 0px rgba(160, 215, 515,0.3),
+              0 0 5px 0px rgba(99, 142, 1, 0.2),
+              0 0 5px 0px rgba(87, 125, 3, 0.2);
+}
+
+#assign-noti #redspan{
+  height: 7em;
+  width: 2em;
+  border-radius: 20%;
+  border:3px solid red;
+  box-shadow: 0 0 5px 0px rgba(247, 136, 168),
+              0 0 5px 0px rgba(248, 86, 125),
+              0 0 5px 0px rgba(253, 45, 97);
+
+}
+
+
+
+
+#assign-body{
+  margin-left: 2em;
+}
+
+.Assign-Card #assign-date{
+  font-size: 13px;
+  color: rgba(0,0,0,0.8);
+}
+
+
+.Assign-Card #assign-content{
+  font-size: 11px;
+  text-align:left;
+}

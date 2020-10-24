@@ -3,6 +3,7 @@ export const LOGOUT = 'LOGOUT';
 export const ADD_ERROR = 'ADD_ERROR';
 export const REMOVE_ERROR = 'REMOVE_ERROR';
 export const GET_PROFILE = 'GET_PROFILE';
+export const GET_ALL_PROFILE = 'GET_ALL_PROFILE';
 export const AUTH_CANCEL = 'AUTH_CANCEL';
 export const GET_CLIENTS = 'GET_CLIENTS';
 export const GET_CLIENT = 'GET_CLIENT';
@@ -23,3 +24,7 @@ export const ADD_FILE_EMP = 'ADD_FILE_EMP';
 export const  GET_FILES_EMP = 'GET_FILES_EMP';
 export const GET_NOTES_EMP =  'GET_NOTES_EMP';
 export const ADD_NOTE_EMP = 'ADD_NOTE_EMP';
+//
+export const GET_ASSIGNMENTS = 'GET_ASSIGNMENTS';
+export const GET_ASSIGNMENT = 'GET_ASSIGNMENT';
+export const ADD_ASSIGNMENT = 'ADD_ASSIGNMENT';

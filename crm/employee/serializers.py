@@ -9,10 +9,10 @@ class profileSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         request = self.context.get('request', None)
         validated_data['owner'] = request.user
-        perf = Performance()
+        perf = models.Performance()
         perf.save()
         validated_data['performance'] = perf
-        user = Profile(**validated_data)
+        user = models.Profile(**validated_data)
         user.save()
         return user
 
@@ -21,6 +21,12 @@ class profileGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Profile
         fields = "__all__"
+
+
+class profileAllSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Profile
+        fields = ['id', 'name', 'pic']
 
 
 class notesSerializer(serializers.ModelSerializer):
@@ -39,14 +45,30 @@ class notesSerializer(serializers.ModelSerializer):
 class assignmentSerializers(serializers.ModelSerializer):
     class Meta:
         model = models.Assignment
-        fields = '__all__'
+        fields = ['id', 'title', 'description', 'type', 'dueday', 'tags']
 
     def create(self, validated_data):
         request = self.context.get('request', None)
         validated_data['created_by'] = request.user.profile
-        assignment = Assignment(**validated_data)
+        members_data, client = validated_data.pop('tags').split('|')
+        validated_data['client'] = models.Client.objects.get(id=int(client))
+        assignment = models.Assignment(**validated_data)
         assignment.save()
+        members = models.Members()
+        members.save()
+        for i in list(members_data.split(",")):
+            profile = models.Profile.objects.get(id=int(i))
+            members.people.add(profile.id)
+        members.save()
+        assignment.teamMembers = members
+        assignment.save()
+
         return assignment
+
+class assignmentGetSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = models.Assignment
+        fields = '__all__'
 
 
 class filesSerializer(serializers.ModelSerializer):

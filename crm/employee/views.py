@@ -3,7 +3,8 @@ from rest_framework.views import APIView;
 from rest_framework.permissions import IsAuthenticated
 from .serializers import profileSerializer, notesSerializer,\
                           assignmentSerializers,filesSerializer,\
-                          profileGetSerializer
+                          profileGetSerializer,profileAllSerializer,\
+                          assignmentGetSerializers
 from api import models;
 from rest_framework import status;
 from rest_framework.response import Response;
@@ -30,6 +31,15 @@ class accessEmployeeView(mixins.ListModelMixin, mixins.RetrieveModelMixin,
         return employee
         # return models.Profile.objects.all()
 
+class accessAllProfile(mixins.ListModelMixin, mixins.RetrieveModelMixin,
+                         mixins.DestroyModelMixin, viewsets.GenericViewSet,
+                         mixins.UpdateModelMixin):
+    serializer_class = profileAllSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        employee = models.Profile.objects.all().exclude(owner_id=self.request.user)
+        return employee
 
 class createAssignmentView(mixins.CreateModelMixin, viewsets.GenericViewSet):
     """ Creates assignment """
@@ -42,12 +52,12 @@ class createAssignmentView(mixins.CreateModelMixin, viewsets.GenericViewSet):
 class accessAssignmentView(mixins.ListModelMixin, mixins.RetrieveModelMixin,
                            viewsets.GenericViewSet):
     """ For deleting, updating and retreiving notes """
-    serializer_class = assignmentSerializers
+    serializer_class = assignmentGetSerializers
     queryset = models.Assignment.objects.all()
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        assignmentlist = models.Assignment.objects.filter(created_by=self.request.user.profile)
+        assignmentlist = models.Assignment.objects.filter(created_by=self.request.user.profile).order_by('-id')
         return assignmentlist
 
 

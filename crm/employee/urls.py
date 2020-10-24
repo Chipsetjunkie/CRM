@@ -8,10 +8,13 @@ from . import views
 router = routers.DefaultRouter()
 router.register('employee', views.EmployeeView, 'employee')
 router.register('access/employee', views.accessEmployeeView, 'employee-access')
+router.register('access/all',views.accessAllProfile, 'all-access')
 router.register('create/employee/notes', views.createNoteView, 'notes')
 router.register('create/employee/files', views.createFileView, 'files')
+router.register('create/employee/assignment', views.createAssignmentView, 'assign')
 router.register('employee/notes', views.accessNoteView, 'notes-access')
 router.register('employee/files', views.accessFileView, 'files-access')
+router.register('employee/assignment', views.accessAssignmentView, 'assign-access')
 
 
 

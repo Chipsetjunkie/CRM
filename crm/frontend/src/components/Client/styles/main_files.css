@@ -1,5 +1,5 @@
 .client-main-file-container{
-  display: flex;
+  display: inline-flex;
   justify-content: flex-start;
   flex-wrap: wrap;
   width: 100%;
@@ -7,6 +7,8 @@
   height: 65vh;
   margin-top: 2em;
 }
+
+
 
 .file-card{
   margin: 3em;

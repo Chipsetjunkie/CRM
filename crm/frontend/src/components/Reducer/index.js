@@ -6,6 +6,7 @@ import {ClientReducer} from './client';
 import {NotesReducer} from './notes';
 import {OrderReducer} from './order';
 import {FileReducer} from './files';
+import {AssignmentReducer} from './assignment';
 
 export const rootReducer = combineReducers({
   AuthReducer,
@@ -14,5 +15,6 @@ export const rootReducer = combineReducers({
   ClientReducer,
   NotesReducer,
   OrderReducer,
-  FileReducer
+  FileReducer,
+  AssignmentReducer
 })

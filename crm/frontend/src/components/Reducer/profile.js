@@ -2,6 +2,7 @@ import * as actiontypes from  "../Actions/types";
 
 const initialState = {
   profile:null,
+  profiles: null,
   loading:true,
 }
 
@@ -16,6 +17,11 @@ export const EmployeeReducer = (state= initialState, action) =>{
             loading:false
           }
 
+      case actiontypes.GET_ALL_PROFILE:
+        return{
+          ...state,
+          profiles: payload
+        }
       default:
         return state
     }

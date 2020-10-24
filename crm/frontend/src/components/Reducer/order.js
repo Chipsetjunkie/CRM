@@ -7,7 +7,7 @@ const initialState = {
 
 const clean_data = (id,data) =>{
   var final = []
-  id.sort().reverse()
+  id.sort((a, b)=> b-a)
   for(var i of id){
       const d = data.filter(item => item.id ===i)
       final.push(d[0])

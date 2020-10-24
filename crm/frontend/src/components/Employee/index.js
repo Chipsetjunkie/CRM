@@ -5,20 +5,20 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import {connect} from 'react-redux';
 import {getNotesEmp} from '../Actions/notes';
 import {getFilesEmp} from '../Actions/files';
+import {getAssignments} from "../Actions/assignment";
 
 
 import "../Client/styles/main_notes.css";
 import "../Client/styles/main_order.css";
 import "../Client/styles/main_files.css";
 import "../Client/styles/main.css";
-
+import "./styles/assigncard.css";
 
 class Employee extends Component {
 
 
   componentDidMount(){
     if(this.props.notes.notesEmp.length===0){
-      console.log("entered")
       this.props.getNotesEmp(this.props.profile[0].personal_notes)
     }
 
@@ -26,7 +26,28 @@ class Employee extends Component {
       this.props.getFilesEmp(this.props.profile[0].file)
     }
 
+    if(this.props.assignment.assignments.length ===0 ){
+      this.props.getAssignments()
+    }
   }
+
+  months = ["January","February","March", "April", "May", "June", "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+  ]
+
+  days =[
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
+]
 
 
 
@@ -68,7 +89,58 @@ class Employee extends Component {
     )
   }
 
+  displayTimeLine = data =>{
+    const date = new Date(data)
+    const  d = new Date()
+    if (date.getFullYear() > d.getFullYear()){
+      return(
+        <p> {`${this.months[date.getMonth()]}, ${date.getFullYear()}`}</p>
+      )
+    }
+    if (date.getMonth() < d.getMonth()){
+      return(
+        <p> {`${date.getDate()}, ${this.months[date.getMonth()]}`}</p>
+      )
+    }
+
+    if (date.getDate() < d.getDate()){
+      return(
+        <p> {`${this.days[date.getDay()]}, ${date.getDate()}`}</p>
+      )
+    }
+
+
+  }
+
+
   displayAssignments = () => {
+    const asgn = this.props.assignment.assignments
+    if(asgn.length>0){
+      return(asgn.map(assignment =>(
+      <div className="Assign-Card">
+        <div id="assign-noti">
+          <span id={`${assignment.type}span`}></span>
+        </div>
+        <div id="assign-body">
+            <div id="assign-title">
+                <h3 style={{textTransform:'Capitalize'}} >{assignment.title}</h3>
+            </div>
+            <div id="assign-date">
+              {this.displayTimeLine(assignment.dueday)}
+            </div>
+            <div id="assign-content">
+              <p>{assignment.description.length>150?assignment.description.slice(0,10):
+                    assignment.description}
+              </p>
+            </div>
+        </div>
+      </div>
+    )
+  ))
+  }
+  else{
+    return ""
+  }
 
   }
 
@@ -95,6 +167,17 @@ class Employee extends Component {
           </div>
           </Scrollbars>
       :""}
+
+      { this.props.active === 'assignment'?
+
+          <Scrollbars style={{height: 600, marginTop: "2em", width:"95%"}} autoHide>
+          <div className="client-main-file-container">
+          {
+             this.displayAssignments()
+          }
+          </div>
+          </Scrollbars>
+      :""}
       </>
     );
   }
@@ -105,7 +188,8 @@ const mapStateToProps = state =>({
   notes:state.NotesReducer,
   files:state.FileReducer,
   profile:state.EmployeeReducer.profile,
-  client:state.ClientReducer
+  client:state.ClientReducer,
+  assignment:state.AssignmentReducer
 })
 
-export default connect(mapStateToProps,{getNotesEmp, getFilesEmp})(Employee);
+export default connect(mapStateToProps,{getNotesEmp, getFilesEmp, getAssignments})(Employee);

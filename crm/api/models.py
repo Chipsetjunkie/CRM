@@ -77,14 +77,14 @@ class Assignment(models.Model):
     )
     client = models.ForeignKey('Client', on_delete=models.CASCADE)
     description = models.TextField(max_length=128)
-    heading = models.CharField(max_length=24)
+    title = models.CharField(max_length=24)
     type = models.CharField(max_length=64, choices=TYPES)
-    location = models.CharField(max_length=64)
     dueday = models.DateTimeField()
     completed = models.BooleanField(default=False)
-    members = models.ManyToManyField('Members', blank=True)
+    teamMembers = models.ForeignKey('Members',on_delete=models.CASCADE, null=True
+                                    , blank=True)
     created_by = models.ForeignKey('Profile', on_delete=models.CASCADE)
-
+    tags = models.TextField(max_length=32, blank=True, null=True)
 
 class Members(models.Model):
     people = models.ManyToManyField('Profile')
@@ -122,7 +122,7 @@ class Order(models.Model):
     completed = models.BooleanField(default=False)
     invoice = models.ForeignKey('Files', blank=True, null=True,
                                 on_delete=models.CASCADE)
-    tag = models.TextField(max_length=10, blank=True, null=True)                            
+    tag = models.TextField(max_length=10, blank=True, null=True)
     created_by = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
 
