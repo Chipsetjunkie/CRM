@@ -16,6 +16,9 @@ import "./styles/assigncard.css";
 
 class Employee extends Component {
 
+  state ={
+    display:'none'
+  }
 
   componentDidMount(){
     if(this.props.notes.notesEmp.length===0){
@@ -51,6 +54,16 @@ class Employee extends Component {
 
 
 
+  openFile = () =>{
+    console.log("clicked")
+  }
+
+  openFileMenu = () =>{
+    this.state.display !== "flex"?
+    this.setState({...this.state, display:"flex"}):
+    this.setState({...this.state, display:"none"})
+  }
+
   displayNotes = () => {
     console.log("enterd notes")
     const notes = this.props.notes.notesEmp
@@ -68,20 +81,20 @@ class Employee extends Component {
 
       <div key = {id+file.name} className="file-card">
           <div className="file-dropdown">
-            <div id="file-menu">
+            <div style={{display:this.state.display}} id="file-menu">
               <p> Update</p>
               <p id="vl"></p>
               <p> Delete </p>
             </div>
-            <p>...</p>
+            <p onClick = {this.openFileMenu} style={{cursor:"pointer"}}>...</p>
           </div>
           <div id="file-body">
-            <p> X </p>
+            <p onClick={()=>this.openFile(file.files)} style={{cursor:"pointer"}}> X </p>
             <p>{file.name}</p>
           </div>
           <div id="file-footer">
-            <p>.xpx </p>
-            <p> size </p>
+            <p>.{file.type} </p>
+            <p> {parseInt(file.size)<1000000?`${Math.round(parseInt(file.size)/1000)} KB`:`${Math.round(parseInt(file.size)/1000000)} MB`} </p>
           </div>
       </div>
     )

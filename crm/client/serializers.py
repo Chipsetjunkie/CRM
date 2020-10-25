@@ -66,7 +66,7 @@ class notesSerializer(serializers.ModelSerializer):
 class filesSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Files
-        fields = ['id', 'name', 'files', 'tag']
+        fields = ['id', 'name', 'files', 'tag' , 'type', 'size']
 
     def create(self, validated_data):
         print("enterfile")

@@ -17,7 +17,8 @@ import "./styles/main.css";
 class Client extends Component {
 
   state = {
-    query:""
+    query:"",
+    display:"none"
   }
 
   componentDidMount(){
@@ -49,6 +50,7 @@ class Client extends Component {
       return( this.props.client.clients.map((client,id) => client.company.includes(this.state.query)?(
           <span key={id}>
           <ClientCard
+          drag = {false}
           color="green"
           client_id={client.id}
           name={client.company}
@@ -96,26 +98,36 @@ class Client extends Component {
   )
   }
 
+  openFile = f =>{
+     window.open(f);
+  }
+
+  openFileMenu = () =>{
+    this.state.display!=="flex"?
+    this.setState({...this.state, display:"flex"})
+    :this.setState({...this.state, display:"none"})
+  }
+
   displayFiles = () =>{
     return(
       this.props.files.files.map((file,id)=>(
 
-      <div key = {id+file.name} className="file-card">
+      <div key = {id+file.name} className="file-card" >
           <div className="file-dropdown">
-            <div id="file-menu">
+            <div style={{display:this.state.display}} id="file-menu">
               <p> Update</p>
               <p id="vl"></p>
               <p> Delete </p>
             </div>
-            <p>...</p>
+            <p onClick = {this.openFileMenu} style={{cursor:"pointer"}}>...</p>
           </div>
           <div id="file-body">
-            <p> X </p>
+            <p onClick={()=>this.openFile(file.files)} style={{cursor:"pointer"}}> X </p>
             <p>{file.name}</p>
           </div>
           <div id="file-footer">
-            <p>.xpx </p>
-            <p> size </p>
+            <p>.{file.type} </p>
+            <p> {parseInt(file.size)<1000000?`${Math.round(parseInt(file.size)/1000)} KB`:`${Math.round(parseInt(file.size)/1000000)} MB`} </p>
           </div>
       </div>
     )

@@ -29,12 +29,8 @@
   padding-right: 10px;
 }
 
-.file-dropdown:hover #file-menu{
-   display: flex;
-}
 
 #file-menu{
-  display: none;
   position: relative;
   left:10em;
   justify-content: space-around;

@@ -8,6 +8,8 @@ class ClientAddFile extends Component {
   state = {
     files:"",
     name:"",
+    size:null,
+    type:""
   }
 
 
@@ -17,8 +19,10 @@ class ClientAddFile extends Component {
     if (inputvalidated(this.state)){
       this.props.updateClientFile(this.state, this.props.client.client.id)
       this.setState({
-        file:"",
+        files:"",
         name:"",
+        size:null,
+        type:""
       })
       this.props.close()
     }
@@ -35,7 +39,9 @@ class ClientAddFile extends Component {
     }
     else{
       file_is_valid(e.target.files[0])?
-      this.setState({[e.target.name]:e.target.files[0]}):console.log("nope")
+      this.setState({...this.state,[e.target.name]:e.target.files[0], size:e.target.files[0].size,
+                      type:e.target.files[0].type.split("/").[1]}):
+      console.log("nope")
     }
   }
 

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import {DragDropContext} from 'react-beautiful-dnd';
+import {Droppable} from 'react-beautiful-dnd';
 import { connect } from "react-redux";
 import { getProfile } from "../Actions/profile";
 import {getClients} from "../Actions/client";
@@ -9,33 +11,28 @@ import Profile from "../Profile";
 import Option from "../Cards/Option";
 import ClientForm from "../Cards/Client";
 import ClientCard from "../Cards/cCard";
-
+import Panel from "../Panels";
 // Client meta functions
 import ClientAddFile from "../Client/clientfiles";
 import ClientAddNote from "../Client/clientnotes";
 import UpdateClient from "../Client/clientupdate";
 import ClientOrder from "../Client/clientorders";
-
 //Employee Meta function
-
 import EmployeeAddFile from "../Employee/emplFile";
 import EmployeeAddNote from "../Employee/emplNotes";
 import UpdateEmployee from "../Employee/emplUpdate";
 import Assignment from "../Employee/assignment";
 
-
-
-import "./styles/dash.css";
-
-//
 import InfoPanel from "./infopanel";
 import NavBar from "./navbar"
 // Client
 import Client from "../Client";
 import Employee from "../Employee";
-import Calender from "../Calender";
 import Performance from "../Performance";
 import Files from "../Files";
+
+import "./styles/dash.css";
+
 
 class Dashboard extends Component {
   state= {
@@ -80,6 +77,9 @@ class Dashboard extends Component {
     this.setState({...this.state, body:tag})
   }
 
+  onDragEnd = () => {
+
+  }
 
   renderData = () =>{
     if (this.state.active ==="main"){
@@ -90,6 +90,9 @@ class Dashboard extends Component {
           )
 
           default:
+          if (this.state.body !== "main"){
+            this.setState({...this.state, body:"main"})
+          }
           return(
             <>
             <div className="Dashboard-content">
@@ -97,6 +100,8 @@ class Dashboard extends Component {
               this.props.client.clients.map((client,id) =>(
                   <span key={id}>
                   <ClientCard
+                  drag= {true}
+                  index = {id}
                   color="green"
                   client_id={client.id}
                   name={client.company}
@@ -253,12 +258,7 @@ class Dashboard extends Component {
 
     }
 
-    if (this.state.active === "calender"){
-      return(
-        <Calender/>
-      )
 
-    }
     if (this.state.active==="files"){
       return(
         <Files/>
@@ -311,6 +311,24 @@ class Dashboard extends Component {
 
   }
 
+
+  renderFooter = () => {
+    if(this.state.active === "main" && this.state.body ==="main"){
+      return(
+          <div className="Dashboard-body-footer">
+          <Droppable droppableId={"win"}>
+          {(provided, snapshot) =>(
+              <Panel color={"green"} provider={()=>provided} snap={()=>snapshot} id="win"/>
+
+          )}
+          </Droppable>
+              <Panel color={"red"} id="fail"/>
+          </div>
+        )
+      }
+    }
+
+
   render() {
     if (this.props.auth && !this.props.auth.isAuthenticated){
      return <Redirect to="/login"/>;
@@ -323,18 +341,29 @@ class Dashboard extends Component {
       <div className="Dashboard-Container">
 
           <Sidepanel changeState={this.changeState} activeState={this.state.active} clientpage={this.changeStatecSide}/>
+          <DragDropContext
+          onDragEnd= {this.onDragEnd}
+          >
+          <div className="Dash-body">
+            <Droppable droppableId={"main-body-section"}>
+            {(provided,snapshot) =>(
+              <div className="Dashboard-body"
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              >
 
-          <div className="Dashboard-body">
-
-            { this.props.profile && this.props.profile.loading ? <div> loading </div> :
-              <>
-              {this.props.profile.profile.length < 1? <Profile/>  :
-                this.renderData()}
-                </>
-              }
-
-
+                { this.props.profile && this.props.profile.loading ? <div> loading </div> :
+                  <>
+                  {this.props.profile.profile.length < 1? <Profile/>  :
+                    this.renderData()}
+                    </>
+                  }
+                </div>
+            )}
+            </Droppable>
+              {this.renderFooter()}
             </div>
+            </DragDropContext>
             <div className="Dashboard-MetaPanel">
             { this.props.profile && this.props.profile.loading ? "" :
               <>

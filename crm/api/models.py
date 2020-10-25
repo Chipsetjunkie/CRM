@@ -111,6 +111,8 @@ class Files(models.Model):
     owner = models.ForeignKey('profile', on_delete=models.CASCADE)
     name = models.CharField(max_length=36)
     files = models.FileField(upload_to=files_directory)
+    type = models.CharField(max_length=5)
+    size = models.IntegerField() 
     tag = models.TextField(max_length=10, blank=True, null=True)
     created = models.DateTimeField(auto_now=True)
 

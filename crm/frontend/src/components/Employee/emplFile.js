@@ -8,6 +8,8 @@ class EmployeeAddFile extends Component {
   state = {
     files:"",
     name:"",
+    size:null,
+    type:""
   }
 
 
@@ -17,8 +19,10 @@ class EmployeeAddFile extends Component {
     if (inputvalidated(this.state)){
       this.props.updateEmployeeFile(this.state, this.props.profile[0].id)
       this.setState({
-        file:"",
+        files:"",
         name:"",
+        size:null,
+        type:""
       })
       this.props.close()
     }
@@ -31,11 +35,12 @@ class EmployeeAddFile extends Component {
   changeHandler = e => {
 
     if (e.target.name!== "files"){
-    this.setState({[e.target.name]:e.target.value})
+    this.setState({...this.state, [e.target.name]:e.target.value})
     }
     else{
       file_is_valid(e.target.files[0])?
-      this.setState({[e.target.name]:e.target.files[0]}):
+      this.setState({...this.state,[e.target.name]:e.target.files[0], size:e.target.files[0].size,
+                      type:e.target.files[0].type.split("/").[1]}):
       console.log("nope")
     }
   }
