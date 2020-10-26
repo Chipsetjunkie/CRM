@@ -6,22 +6,19 @@ class NavBar extends Component {
   state = {
     active:this.props.id,
     vals:{
-      'client': ["notes", "files", "orders"],
+      'client': ["notes", "files", "orders", "assignments"],
       'employee': ["notes", "files", "assignments"]
     }
   }
 
   clickHandler = i =>{
-    console.log(this.state.page, "check")
     const vals = this.state.vals[this.props.page]
-    console.log(vals[i])
     this.props.changepage(vals[i])
     this.setState({...this.state,active:i})
   }
 
 
   display = () => {
-    console.log(this.state.page, "check")
     const vals = this.state.vals[this.props.page]
     return vals.map((value,id) => id===this.state.active ?(
       <span key={id+value} id="active" onClick= {()=>this.clickHandler(id)}>{value}</span>

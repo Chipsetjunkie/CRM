@@ -126,16 +126,18 @@ export const updateClient = (data,id) => dispatch =>{
   axios
   .patch(`access/client/${id}/`, formData, config)
   .then(resp =>{
-
     dispatch(
-      setError(" File added success",'noti-green')
+      setError("Updated success",'noti-green')
+    )
+    dispatch(
+      getClients()
     )
 
   })
   .catch(err =>{
     console.log(err)
     dispatch(
-      setError(" File update failed",'noti-red')
+      setError("Update failed",'noti-red')
     )
   })
 

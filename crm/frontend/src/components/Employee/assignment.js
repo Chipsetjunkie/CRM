@@ -72,12 +72,25 @@ class Assignment extends Component {
 
   }
 
-  onChange = date => {
-    const d = new Date()
-    if(date.getMonth() >= d.getMonth() && date.getDate() >= d.getDate()
-                && date.getFullYear() >= d.getFullYear()){
+  checkdate = (date) => {
+    const d= new Date()
+    if (date.getFullYear() < d.getFullYear()){
+        return false
+    }
+    if (date.getFullYear() === d.getFullYear() && date.getMonth() < d.getMonth()){
+      return false
+    }
 
-          this.setState({...this.state, date, error:null })
+    if (date.getFullYear() === d.getFullYear() && date.getDate() < d.getDate()){
+      return false
+    }
+
+    return true
+  }
+
+  onChange = date => {
+    if (this.checkdate(date)){
+          this.setState({...this.state, date:date, error:null })
       }
     else{
       this.setState({...this.state, error:"invalid date" })
@@ -91,12 +104,10 @@ class Assignment extends Component {
   }
 
   onClickMem = () =>{
-    console.log("clicked mem also")
     this.setState({...this.state, memstyle:"flex"})
   }
 
   closeMem = () => {
-    console.log("clicked mem")
     this.setState({...this.state, memstyle:"None"})
   }
 
@@ -114,7 +125,6 @@ class Assignment extends Component {
     member.unshift(id)
     var member_pics = this.state.member_pics
     member_pics[id] = pic
-    console.log(member_pics)
     this.setState({...this.state, member, member_pics})
   }
 
@@ -184,7 +194,6 @@ class Assignment extends Component {
 
   dateconverter = (date,time) =>{
     const string =`${date.getFullYear()} ${date.getMonth()+1} ${date.getDate()} ${time}`
-    console.log(string)
     return new Date(string)
   }
 
@@ -203,9 +212,9 @@ submitHandler = e =>{
       tags:`${this.state.member}|${this.state.client}`,
       type:this.state.priority,
       description:this.state.description,
-      dueday:date
+      due_tag:date
   }
-  if (inputvalidated(this.state)){
+  if (inputvalidated(data,["member","tags"])){
       this.props.createAssignment(data)
       this.props.close()
       }
@@ -241,7 +250,7 @@ submitHandler = e =>{
                 <p> Members </p>
                 <div>
                   <p>{this.state.time}</p>
-                  <p> {`${this.days[this.state.date.getDay()]} , ${this.months[this.state.date.getMonth()]} ${this.state.date.getDate()}`} </p>
+                  <p> {`${this.state.date.getDate()} , ${this.months[this.state.date.getMonth()]} ${this.state.date.getFullYear()}`} </p>
                 </div>
                 <span>
                   <div>

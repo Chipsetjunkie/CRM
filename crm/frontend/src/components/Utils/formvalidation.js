@@ -1,10 +1,12 @@
-export const inputvalidated = state =>{
+export const inputvalidated = (state,exclude="") =>{
+
+
   for(var i of Object.values(state)){
-    if(i.length === 0){
-      return false
-    }
+      if(i.length === 0){
+        return false;
+      }
   }
-  return true
+  return true;
 }
 
 

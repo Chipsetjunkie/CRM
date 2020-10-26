@@ -19,10 +19,9 @@ export const createAssignment = data => dispatch =>{
   axios
   .post('create/employee/assignment/',payload,config)
   .then(resp=>{
-    dispatch({
-      type:actiontypes.ADD_ASSIGNMENT,
-      payload:resp.data
-    })
+    dispatch(
+      getAssignments()
+    )
     dispatch(
       setError("Assignment added",'noti-green')
     )
@@ -48,7 +47,6 @@ export const getAssignments = () => dispatch =>{
   axios
   .get('employee/assignment/',config)
   .then(resp=>{
-    console.log(resp.data)
     dispatch({
       type:actiontypes.GET_ASSIGNMENTS,
       payload:resp.data

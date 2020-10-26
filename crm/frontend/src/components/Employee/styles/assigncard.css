@@ -1,34 +1,96 @@
-/*lenght 150 */
+.assign-card{
+  margin: 2em;
+  margin-top: 0;
+  height: 10em;
+  width: 15em;
+  background: white;
+  border-radius:20px;
+  box-shadow: 0 30px 20px -20px rgba(0,0,0,0.2),
+             0 20px 30px -2px rgba(0,0,0,0.2);
+  transform: scale(0.8);
+}
 
-.Assign-Card{
+
+
+#assign-alert-container{
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
+}
+
+#assign-alert-green{
+  width: 1.5em;
+  height: 1.5em;
+  background-image: linear-gradient(45deg, white 50%, rgb(185, 255, 228) 5%,rgba(81, 212, 170));
+  box-shadow: 7px -7px 15px 1px rgba(81, 212, 170,0.5),
+              1px -1px 20px -10px rgba(44, 148, 115,0.2);
+
+  border-top-right-radius: 5px;
+}
+
+
+#assign-alert-yellow{
+  width: 1.5em;
+  height: 1.5em;
+  background-image: linear-gradient(45deg, white 50%, rgb( 252, 255, 61) 30%,rgba(252, 146, 34));
+  box-shadow: 7px -7px 15px 1px rgba(255, 252, 61,0.5),
+              1px -1px 15px -10px rgba(252, 146, 34);
+
+  border-top-right-radius: 5px;
+}
+
+
+#assign-alert-red{
+  width: 1.5em;
+  height: 1.5em;
+  background-image: linear-gradient(45deg, white 50%, rgb(255, 193, 210) 10%,rgba(251, 7, 69));
+  box-shadow: 7px -7px 20px 1px rgba(247, 136, 168),
+              1px -1px 20px -10px rgba(248, 86, 125),
+              1px -1px 20px -10px rgba(149, 1, 185);
+
+  border-top-right-radius: 5px;
+}
+
+#assign-alert-violet{
+  width: 1.5em;
+  height: 1.5em;
+  background-image: linear-gradient(45deg, rgba(253, 251, 252) 50%, rgb(246, 206, 248) 10%,rgb(143, 8, 180));
+  box-shadow: 7px -7px 10px 2px rgba(246, 206, 248),
+              1px -1px 20px -10px rgba(221, 104, 253),
+              1px -1px 20px -10px rgba(253, 45, 97);
+
+  border-top-right-radius: 5px;
+}
+
+
+.assign-body{
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
   align-items: center;
   padding: 10px;
-  background: white;
-  width: 12em;
-  height: 8em;
-  border-radius: 10px;
-  box-shadow: -3px 10px 20px -15px,
-               0px 0px 2px 0px rgba(0,0,0,0.2);
-  margin:2em;
-  margin-top: 0;
+  height: 6.5em;
 }
 
-
-#assign-noti #bluespan{
-  height: 7em;
-  width: 2em;
-  border-radius: 20%;
-  border:3px solid rgba(46, 73, 242,1);
-  box-shadow: 0 0 5px 0px rgba(106, 172, 255,0.2),
-            0 0 5px 0px rgba(46, 88, 255,0.2),
-            0 0 5px 0px rgba(46, 73, 242,0.2),
-           0 0 5px 0px rgba(56, 62, 208,0.2);
+.assign-content{
+  width: 15em;
+  margin-left:2em;
 }
 
+.assign-content #assign-date{
+  font-size: 13px;
+}
 
-#assign-noti #purplespan{
+.assign-content #assign-desc{
+  font-size: 11px;
+}
+
+.assign-content #assign-title{
+  text-transform:capitalize;
+  fontSize:14px;
+  color:grey;
+}
+
+.assign-notif #violetspan{
   height: 7em;
   width: 2em;
   border-radius: 20%;
@@ -39,7 +101,19 @@
              0 0 5px 0px rgba(105, 20, 176,0.6);
 }
 
-#assign-noti #yellowspan{
+
+.assign-notif #bluespan{
+  height: 7em;
+  width: 2em;
+  border-radius: 20%;
+  border:3px solid rgba(46, 73, 242,1);
+  box-shadow: 0 0 5px 0px rgba(106, 172, 255,0.2),
+            0 0 5px 0px rgba(46, 88, 255,0.2),
+            0 0 5px 0px rgba(46, 73, 242,0.2),
+           0 0 5px 0px rgba(56, 62, 208,0.2);
+}
+
+.assign-notif #yellowspan{
   height: 7em;
   width: 2em;
   border-radius: 20%;
@@ -49,7 +123,7 @@
               0 0 5px 0px rgba(255, 67, 11, 0.2);
 }
 
-#assign-noti #greenspan{
+.assign-notif #greenspan{
   height: 7em;
   width: 2em;
   border-radius: 20%;
@@ -59,7 +133,7 @@
               0 0 5px 0px rgba(87, 125, 3, 0.2);
 }
 
-#assign-noti #redspan{
+.assign-notif #redspan{
   height: 7em;
   width: 2em;
   border-radius: 20%;
@@ -68,22 +142,4 @@
               0 0 5px 0px rgba(248, 86, 125),
               0 0 5px 0px rgba(253, 45, 97);
 
-}
-
-
-
-
-#assign-body{
-  margin-left: 2em;
-}
-
-.Assign-Card #assign-date{
-  font-size: 13px;
-  color: rgba(0,0,0,0.8);
-}
-
-
-.Assign-Card #assign-content{
-  font-size: 11px;
-  text-align:left;
 }

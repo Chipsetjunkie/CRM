@@ -67,7 +67,7 @@ class ClientAddNote extends Component {
       <p><label htmlFor="notess"> Description </label></p>
       <textarea name="description" id="notess" onChange={this.changeHandler}></textarea>
       <div className="notes-submit-container">
-      <p><input type="submit" value="Update"></input></p>
+      <p><input type="submit" value="Add"></input></p>
       <p><input type="submit" value="Close" onClick={this.close}></input></p>
       </div>
     </form>

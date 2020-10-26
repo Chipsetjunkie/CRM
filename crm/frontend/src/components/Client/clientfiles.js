@@ -54,7 +54,6 @@ class ClientAddFile extends Component {
 
   render() {
 
-    console.log("updated",this.state)
     return (
       <form className="file-form" method="post" onSubmit={this.submitHandler}>
       <p><label htmlFor="file"> Upload file </label></p>

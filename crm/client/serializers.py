@@ -33,13 +33,21 @@ class ClientGetSerializer(serializers.ModelSerializer):
             instance.pic = validated_data.get('pic', instance.pic)
 
         if "contact" in validated_data:
-            instance.name = validated_data.get('contact', instance.contact)
+            instance.contact = validated_data.get('contact', instance.contact)
 
         if "est_value" in validated_data:
             instance.est_value = validated_data.get('est_value', instance.est_value)
 
         if "company" in validated_data:
-            instance.name = validated_data.get('company', instance.name)
+            instance.company = validated_data.get('company', instance.company)
+
+        if "lead_status" in validated_data:
+            print(validated_data.get('lead_status', instance.lead_status))
+            instance.lead_status = validated_data.get('lead_status', instance.lead_status)
+
+        if "deal_status" in validated_data:
+            print(validated_data.get('deal_status', instance.deal_status))
+            instance.deal_status = validated_data.get('deal_status', instance.deal_status)
 
         instance.save()
         return instance

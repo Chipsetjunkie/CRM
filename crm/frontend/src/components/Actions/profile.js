@@ -144,7 +144,6 @@ export const updateEmployeeNotes = (data,id) => dispatch =>{
   axios
   .post(`create/employee/notes/`, data, config)
   .then(resp =>{
-    console.log(resp.data)
     dispatch(
        addNoteEmp(resp.data)
     )

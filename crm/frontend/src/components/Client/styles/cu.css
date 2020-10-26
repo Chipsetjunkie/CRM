@@ -1,39 +1,34 @@
+html,body{
+  font-family: sans-serif;
+}
 
+.grid-container-update {
+  display: grid;
+  grid-template-areas:
+    'Email Name'
+    'Contact EstValue'
+    'Company LeadStatus';
+  grid-gap: 10px;
+  padding: 10px;
+}
 
 .update-form{
   margin: 5em;
-  margin-left: 20em;
   background: white;
   border: 1px solid rgba(100,100,255,0.2);
-  width: 300px;
-  min-width: 300px;
   padding: 40px;
   border-radius:10px;
+  width: 30em;
   box-shadow: 0 20px 60px -30px rgba(100,100,255,0.45);
 
 }
 
-.update-form>p>label{
-  color:black;
-  margin: 0;
-}
-
-
-.update-form>p>input{
+.update-form p>input{
   width: 90%;
   border: 1px solid rgba(100,100,255,0.2);
   padding: 10px;
   border-radius: 10px;
 }
-
-
-.update-form>div>p>input{
-  width: 90%;
-  border: 1px solid rgba(100,100,255,0.2);
-  padding: 10px;
-  border-radius: 10px;
-}
-
 
 
 .update-form>div>p>input[type="submit"]{
@@ -43,7 +38,7 @@
 }
 
 
-.update-form>div>p>input[type="submit"]:hover{
+.update-form input[type="submit"]:hover{
   background: rgba(100,100,255,0.2);
 }
 
@@ -51,4 +46,30 @@
 .update-submit-container{
   display: flex;
   justify-content: space-around;
+}
+
+
+
+.email{
+  grid-area:Email;
+}
+
+.name{
+  grid-area:Name;
+}
+
+.contact{
+  grid-area:Contact;
+}
+
+.est{
+  grid-area: EstValue;
+}
+
+.company{
+  grid-area: Company;
+}
+
+.lead{
+  grid-area:LeadStatus;
 }

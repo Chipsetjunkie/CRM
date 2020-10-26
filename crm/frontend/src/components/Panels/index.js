@@ -1,20 +1,11 @@
 import React, { Component } from 'react';
-import {Droppable} from 'react-beautiful-dnd';
 import "./main.css";
 class Panel extends Component {
-  state = {
-    provided:this.props.provider !==undefined && this.props.provider()
-  }
 
   render() {
-    console.log(this.state.provided)
+    const color = this.props.id === "win" ? "green" : "red"
     return (
-
-      <div
-      {...this.state.provided.draggableProps}
-      {...this.state.provided.dragHandleProps}
-      ref= {this.state.provided.innerRef}
-      >
+      <div>
       <div className={`outer-${this.props.color}`}>
         <div className={`inner-${this.props.color}`}>
         </div>
@@ -22,7 +13,8 @@ class Panel extends Component {
       </div>
     );
   }
-
 }
 
 export default Panel;
+
+//  <div style = {{padding:"5px", borderRadius:"10px", border:`${snap.isDraggingOver?"1px solid "+color:"1px solid rgba(0,0,0,0)"}`}}>

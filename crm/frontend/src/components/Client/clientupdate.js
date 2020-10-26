@@ -11,11 +11,15 @@ class UpdateClient extends Component {
     contact: this.props.client.client.contact,
     company:this.props.client.client.company,
     est_value:this.props.client.client.est_value,
-    pic:this.props.client.client.pic
+    pic:this.props.client.client.pic,
+    lead_status:this.props.client.client.lead_status
   }
 
   changeHandler = e => {
-
+    if (e.target.name === "lead_status"){
+      this.setState({[e.target.name]:e.target.checked})
+      return;
+    }
     if (e.target.name!== "pic"){
     this.setState({[e.target.name]:e.target.value})
     }
@@ -39,7 +43,7 @@ class UpdateClient extends Component {
     }
 
 
-  close = () => {
+  close = e=> {
     e.preventDefault()
     this.props.close()
   }
@@ -48,24 +52,36 @@ class UpdateClient extends Component {
     return (
 
       <div className="update-form-container">
-      <form className="update-form" method="post" onSubmit={this.submitHandler} >
-        <p><label htmlFor="pic"> Upload Pic</label></p>
-        <p><input type="file" id="pic" name="pic" onChange={this.changeHandler} ></input></p>
-        <p><label htmlFor="email"> Email </label></p>
-        <p><input type="email" id="email" name="email" onChange={this.changeHandler} value={this.state.email}></input></p>
-        <p><label htmlFor="name"> Name</label></p>
-        <p><input type="text" id="name" name="name" onChange={this.changeHandler} value={this.state.name}></input></p>
-        <p><label htmlFor="contact"> Contact</label></p>
-        <p><input type="text" id="contact" name="contact" onChange={this.changeHandler} value={this.state.contact}></input></p>
-        <p><label htmlFor="est_value"> Est Value</label></p>
-        <p><input type="text" id="est_value" name="est_value" onChange={this.changeHandler} value={this.state.est_value}></input></p>
-        <p><label htmlFor="contact">Company </label></p>
-        <p><input type="text" id="contact" name="company" onChange={this.changeHandler} value={this.state.company}></input></p>
-        <div class="update-submit-container">
-        <p><input type="submit" value="Update"></input></p>
-        <p><input type="submit" value="Close" onClick={this.close}></input></p>
-        </div>
-    </form>
+      <form className="update-form" method="post" onSubmit={this.submitHandler}>
+      <p><label htmlFor="pic"> Upload Pic</label></p>
+      <p><input type="file" id="pic" name="pic" onChange={this.changeHandler} ></input></p>
+            <div className="grid-container-update">
+            <div className="email">
+            <p><label htmlFor="email"> Email </label></p>
+            <p><input type="email" id="email" name="email" onChange={this.changeHandler} value={this.state.email}></input></p>
+            </div>
+            <div className="name">
+            <p><label htmlFor="name"> Name</label></p>
+            <p><input type="text" id="name" name="name" onChange={this.changeHandler} value={this.state.name}></input></p>
+            </div>
+            <div className="contact">
+            <p><label htmlFor="contact"> Contact</label></p>
+            <p><input type="text" id="contact" name="contact" onChange={this.changeHandler} value={this.state.contact}></input></p>
+            </div>
+            <div className="est">
+            <p><label htmlFor="est_value"> Est Value</label></p>
+            <p><input type="text" id="est_value" name="est_value" onChange={this.changeHandler} value={this.state.est_value}></input></p>
+            </div>
+            <div className="company">
+            <p><label htmlFor="contact">Company </label></p>
+            <p><input type="text" id="contact" name="company" onChange={this.changeHandler} value={this.state.company}></input></p>
+            </div>
+          </div>
+            <div className="update-submit-container">
+            <p><input type="submit" value="Update"></input></p>
+            <p><input type="submit" value="Close" onClick={this.close}></input></p>
+            </div>
+        </form>
     </div>
 
     );

@@ -56,7 +56,6 @@ class EmployeeAddNote extends Component {
 
 
   render() {
-    console.log(this.state)
     return (
       <form className="notes-form" onSubmit={this.submitHandler} method="post">
       <p> Add Note </p>

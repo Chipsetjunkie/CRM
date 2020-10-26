@@ -57,6 +57,7 @@ class Client(models.Model):
     file = models.ManyToManyField('Files')
     deal_status = models.BooleanField(default=False)
     lead_status = models.BooleanField(default=False)
+    due_date = models.ManyToManyField('Time')
     orders = models.ManyToManyField('Order')
     created = models.DateTimeField(auto_now=True)
     date_closed = models.DateTimeField(null=True, blank=True)
@@ -79,11 +80,12 @@ class Assignment(models.Model):
     description = models.TextField(max_length=128)
     title = models.CharField(max_length=24)
     type = models.CharField(max_length=64, choices=TYPES)
-    dueday = models.DateTimeField()
+    dueday = models.ForeignKey('Time', on_delete=models.CASCADE, null=True, blank=True)
     completed = models.BooleanField(default=False)
     teamMembers = models.ForeignKey('Members',on_delete=models.CASCADE, null=True
                                     , blank=True)
     created_by = models.ForeignKey('Profile', on_delete=models.CASCADE)
+    due_tag = models.DateTimeField(null=True, blank=True)
     tags = models.TextField(max_length=32, blank=True, null=True)
 
 class Members(models.Model):
@@ -112,7 +114,7 @@ class Files(models.Model):
     name = models.CharField(max_length=36)
     files = models.FileField(upload_to=files_directory)
     type = models.CharField(max_length=5)
-    size = models.IntegerField() 
+    size = models.IntegerField()
     tag = models.TextField(max_length=10, blank=True, null=True)
     created = models.DateTimeField(auto_now=True)
 
@@ -135,3 +137,8 @@ class Performance(models.Model):
     deals_created = models.IntegerField(default=0)
     deals_dropped = models.IntegerField(default=0)
     deals_confirmed = models.IntegerField(default=0)
+
+
+class Time(models.Model):
+    deadline = models.DateTimeField()
+    Aid = models.IntegerField(null=True, blank=True)

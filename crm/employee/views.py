@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import profileSerializer, notesSerializer,\
                           assignmentSerializers,filesSerializer,\
                           profileGetSerializer,profileAllSerializer,\
-                          assignmentGetSerializers
+                          assignmentGetSerializers,TimeSerializers
 from api import models;
 from rest_framework import status;
 from rest_framework.response import Response;
@@ -110,3 +110,12 @@ class logoutUser(APIView):
             "message": "logged out successfully!"
         }
         return Response(data)
+
+
+
+class accessTimeView(mixins.ListModelMixin, mixins.RetrieveModelMixin,
+                    viewsets.GenericViewSet):
+    """ Access Time """
+    queryset= models.Time.objects.all()
+    serializer_class = TimeSerializers
+    permission_classes = [IsAuthenticated]

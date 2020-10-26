@@ -15,7 +15,7 @@ router.register('create/employee/assignment', views.createAssignmentView, 'assig
 router.register('employee/notes', views.accessNoteView, 'notes-access')
 router.register('employee/files', views.accessFileView, 'files-access')
 router.register('employee/assignment', views.accessAssignmentView, 'assign-access')
-
+router.register('access/time', views.accessTimeView, 'access-time')
 
 
 urlpatterns = [

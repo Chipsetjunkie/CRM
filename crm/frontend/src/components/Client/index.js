@@ -1,17 +1,20 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Note from "../Cards/notes";
 import { Scrollbars } from 'react-custom-scrollbars';
 import ClientCard from "../Cards/cCard";
 
+import {getAssignments} from "../Actions/assignment";
 import {connect} from 'react-redux';
 import {getNotes} from '../Actions/notes';
 import {getOrders} from '../Actions/order';
 import {getFiles} from '../Actions/files';
+import {displayTimeLine} from "../Utils/dateconverter";
 
 import "./styles/main_notes.css";
 import "./styles/main_order.css";
 import "./styles/main_files.css";
 import "./styles/main.css";
+import "../Employee/styles/assigncard.css";
 
 
 class Client extends Component {
@@ -22,6 +25,8 @@ class Client extends Component {
   }
 
   componentDidMount(){
+    if(this.props.assignment.assignments.length ===0 ){
+      this.props.getAssignments()}
 
     if (this.props.client.client){
       if (this.props.currentstate==="main"){
@@ -45,17 +50,46 @@ class Client extends Component {
     this.setState({...this.state, [e.target.name]:e.target.value})
   }
 
+  checkdate = d =>{
+    if (d.length === 0){
+      return;
+    }
+    const now = new Date()
+    const time = d.map(d =>this.props.time.time.filter(t=> t.id ===d)[0])
+    var min = null
+    for (const i of time){
+        !min? min = new Date (i.deadline) :
+        new Date(i.deadline) < min ? min= new Date(i.deadline) : ""
+    }
+    min = new Date(min)
+
+    if (min < now){
+      return;
+    }
+
+    if(min.getDate() -now.getDate() < 3){
+      return "red";
+    }
+
+    if(now.getMonth() === min.getMonth()){
+      return "yellow";
+    }
+
+    else{
+      return "green";
+    }
+  }
+
   displayMain = () => {
     if(this.props.client.clients.length > 0){
       return( this.props.client.clients.map((client,id) => client.company.includes(this.state.query)?(
           <span key={id}>
           <ClientCard
-          drag = {false}
-          color="green"
+          click = {true}
           client_id={client.id}
           name={client.company}
           est={String(client.est_value).slice(0,5)}
-          days="null"
+          sector={client.sector}
           stateChange = {this.props.changeState}
           bodyChange = {this.props.changeBody}
           />
@@ -70,7 +104,6 @@ class Client extends Component {
   }
 
   displayNotes = () => {
-    console.log("enterd notes")
     const notes = this.props.notes.notes
     return notes.map((note,id) =>(
       <div key = {id}>
@@ -135,8 +168,67 @@ class Client extends Component {
     )
   }
 
+  displayAssign = () =>{
+    const time = this.props.client.client.due_date.map(dateId=>
+            this.props.time.time.filter(time=> time.id == dateId))
+    const asgn = time.map(t=>
+            this.props.assignment.assignments.filter(a=> a.id===t[0].Aid))
+    if(asgn.length>0){
+      return(asgn.map((assignment,id) =>(
+
+                <div key={"clientassing"+id} class="assign-card">
+                <div id="assign-alert-container">
+                <div id="assign-alert-red"></div>
+                </div>
+                <div class="assign-body">
+                <div class="assign-notif">
+                  <span id={`${assignment[0].type}span`}></span>
+                </div>
+                <div class="assign-content">
+                  <div id="assign-title">
+                        <h3>{assignment[0].title}</h3>
+                  </div>
+                  <div id="assign-date">
+                      <p> {displayTimeLine(this.props.time.time.filter(time => time.id ===assignment[0].dueday)[0].deadline)}</p>
+                  </div>
+                  <div id="assign-desc">
+                      <p>{assignment[0].description.length>150?assignment[0].description.slice(0,10):
+                            assignment[0].description}</p>
+                  </div>
+                </div>
+              </div>
+              </div>
+            )
+            )
+            )
+      }
+  }
+
+
+
+
+  displayDashboard = () => {
+    if(this.props.client.clients.length > 0){
+
+      return(this.props.client.clients.map((client,id) =>(
+
+          <span key={id}>
+          <ClientCard
+          index = {id}
+          color={this.checkdate(client.due_date)}
+          client_id={client.id}
+          name={client.company}
+          est={String(client.est_value).slice(0,5)}
+          sector={client.sector}
+          stateChange = {this.changeState}
+          bodyChange = {this.changeBody}
+          />
+          </span>
+      )))
+  }
+  }
+
   render() {
-    console.log(this.props.active)
     return (
       <>
       { this.props.active === 'notes'?
@@ -170,6 +262,20 @@ class Client extends Component {
           </Scrollbars>
       :""}
 
+      { this.props.active === 'assignments'?
+
+          <Scrollbars style={{height: 600, marginTop: "2em", width:"95%"}} autoHide>
+          <div className="client-main-file-container" style={{background:"azure"}}>
+          <>
+          {
+             this.displayAssign()
+          }
+          </>
+          </div>
+          </Scrollbars>
+      :""}
+
+
       { this.props.active === 'main'?
           <>
           <input type="text" id="search-query" name="query"
@@ -188,6 +294,14 @@ class Client extends Component {
       :""}
 
 
+      { this.props.active === 'dashboard'?
+
+          <Scrollbars style={{height: 600, marginTop: "2em", width:"95%"}} autoHide>
+          {
+             this.displayDashboard()
+          }
+          </Scrollbars>
+      :""}
 
       </>
     );
@@ -198,7 +312,9 @@ const mapStateToProps = state =>({
   notes:state.NotesReducer,
   orders:state.OrderReducer,
   files:state.FileReducer,
-  client:state.ClientReducer
+  client:state.ClientReducer,
+  assignment:state.AssignmentReducer,
+  time:state.TimeReducer
 })
 
-export default connect(mapStateToProps, {getNotes, getOrders, getFiles})(Client);
+export default connect(mapStateToProps, {getNotes, getOrders, getFiles, getAssignments})(Client);

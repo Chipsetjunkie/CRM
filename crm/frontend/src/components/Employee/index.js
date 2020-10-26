@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {getNotesEmp} from '../Actions/notes';
 import {getFilesEmp} from '../Actions/files';
 import {getAssignments} from "../Actions/assignment";
-
+import {displayTimeLine} from "../Utils/dateconverter";
 
 import "../Client/styles/main_notes.css";
 import "../Client/styles/main_order.css";
@@ -34,28 +34,11 @@ class Employee extends Component {
     }
   }
 
-  months = ["January","February","March", "April", "May", "June", "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December"
-  ]
-
-  days =[
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday"
-]
 
 
 
-  openFile = () =>{
-    console.log("clicked")
+  openFile = f =>{
+    window.open(f);
   }
 
   openFileMenu = () =>{
@@ -65,10 +48,9 @@ class Employee extends Component {
   }
 
   displayNotes = () => {
-    console.log("enterd notes")
     const notes = this.props.notes.notesEmp
     return notes.map((note,id) =>(
-      <div key = {id}>
+      <div key = {id+"noteemp"+note.Description}>
         <Note type={note.type} description={note.description}/>
       </div>
     )
@@ -79,7 +61,7 @@ class Employee extends Component {
     return(
       this.props.files.files_emp.map((file,id)=>(
 
-      <div key = {id+file.name} className="file-card">
+      <div key = {id+"fileemp"+file.name} className="file-card">
           <div className="file-dropdown">
             <div style={{display:this.state.display}} id="file-menu">
               <p> Update</p>
@@ -102,60 +84,43 @@ class Employee extends Component {
     )
   }
 
-  displayTimeLine = data =>{
-    const date = new Date(data)
-    const  d = new Date()
-    if (date.getFullYear() > d.getFullYear()){
-      return(
-        <p> {`${this.months[date.getMonth()]}, ${date.getFullYear()}`}</p>
-      )
-    }
-    if (date.getMonth() < d.getMonth()){
-      return(
-        <p> {`${date.getDate()}, ${this.months[date.getMonth()]}`}</p>
-      )
-    }
-
-    if (date.getDate() < d.getDate()){
-      return(
-        <p> {`${this.days[date.getDay()]}, ${date.getDate()}`}</p>
-      )
-    }
-
-
+  getClient = id =>{
+    const c = this.props.client.clients.filter(client => client.id === id)
+    return "#"+c[0].name.slice(0,7)+"..."
   }
-
 
   displayAssignments = () => {
     const asgn = this.props.assignment.assignments
     if(asgn.length>0){
-      return(asgn.map(assignment =>(
-      <div className="Assign-Card">
-        <div id="assign-noti">
+      const time = this.props.time.time
+      return(asgn.map((assignment,id) =>(
+        <div key={"empaassing"+id} class="assign-card">
+        <div id="assign-alert-container">
+        <div id="assign-alert-red"></div>
+        </div>
+        <div class="assign-body">
+        <div class="assign-notif">
           <span id={`${assignment.type}span`}></span>
         </div>
-        <div id="assign-body">
-            <div id="assign-title">
-                <h3 style={{textTransform:'Capitalize'}} >{assignment.title}</h3>
-            </div>
-            <div id="assign-date">
-              {this.displayTimeLine(assignment.dueday)}
-            </div>
-            <div id="assign-content">
-              <p>{assignment.description.length>150?assignment.description.slice(0,10):
-                    assignment.description}
-              </p>
-            </div>
+        <div class="assign-content">
+          <div id="assign-title">
+                <h3>{assignment.title} {this.getClient(assignment.client)}</h3>
+          </div>
+          <div id="assign-date">
+              <p> {displayTimeLine(time.filter(time => time.id ===assignment.dueday)[0].deadline)}</p>
+          </div>
+          <div id="assign-desc">
+              <p>{assignment.description.length>120?assignment.description.slice(0,120)+"...":
+                    assignment.description}</p>
+          </div>
         </div>
       </div>
+      </div>
     )
-  ))
+  )
+  )
   }
-  else{
-    return ""
-  }
-
-  }
+}
 
   render() {
     return (
@@ -202,7 +167,8 @@ const mapStateToProps = state =>({
   files:state.FileReducer,
   profile:state.EmployeeReducer.profile,
   client:state.ClientReducer,
-  assignment:state.AssignmentReducer
+  assignment:state.AssignmentReducer,
+  time:state.TimeReducer
 })
 
 export default connect(mapStateToProps,{getNotesEmp, getFilesEmp, getAssignments})(Employee);

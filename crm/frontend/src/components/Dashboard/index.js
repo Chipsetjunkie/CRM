@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import {DragDropContext} from 'react-beautiful-dnd';
-import {Droppable} from 'react-beautiful-dnd';
 import { connect } from "react-redux";
 import { getProfile } from "../Actions/profile";
 import {getClients} from "../Actions/client";
 import {getAssignments} from "../Actions/assignment";
+import {getTime} from "../Actions/time";
+import {updateClient} from "../Actions/client";
 import Sidepanel from "../Sidepanel";
 import Profile from "../Profile";
 import Option from "../Cards/Option";
@@ -47,12 +47,14 @@ class Dashboard extends Component {
       this.check_Profile()
       this.setState({...this.state, initialcheck:true})
     }
+    if (this.props.time.time.length===0){
+      this.props.getTime()
+    }
   }
   }
 
 
   changeState = menu =>{
-    console.log("entered state change")
     this.setState({...this.state, active:menu})
   }
 
@@ -73,12 +75,7 @@ class Dashboard extends Component {
 
 
   changeBody = tag => {
-    console.log("entered body change")
     this.setState({...this.state, body:tag})
-  }
-
-  onDragEnd = () => {
-
   }
 
   renderData = () =>{
@@ -96,24 +93,7 @@ class Dashboard extends Component {
           return(
             <>
             <div className="Dashboard-content">
-            {this.props.client.clients.length > 0?
-              this.props.client.clients.map((client,id) =>(
-                  <span key={id}>
-                  <ClientCard
-                  drag= {true}
-                  index = {id}
-                  color="green"
-                  client_id={client.id}
-                  name={client.company}
-                  est={String(client.est_value).slice(0,5)}
-                  days="null"
-                  stateChange = {this.changeState}
-                  bodyChange = {this.changeBody}
-                  />
-                  </span>
-              )
-            ):""
-            }
+              <Client active="dashboard"/>
             </div>
             <div className="Dashboard-footer">
 
@@ -143,6 +123,16 @@ class Dashboard extends Component {
           <Client active="files"/>
           </>
         )
+
+        case "assignments":
+        return(
+          <>
+          <InfoPanel pic={pic} name={name} sector={sector} company={company} contact={contact}/>
+          <NavBar id={3} page={"client"} changepage={this.changeBody}/>
+          <Client active="assignments"/>
+          </>
+        )
+
 
         case "update-form":
         return(
@@ -193,7 +183,6 @@ class Dashboard extends Component {
       }
 
     if (this.state.active==="employee"){
-      console.log("entered employee section")
       const {pic, name, address, contact, position}= Object.values(this.props.profile.profile)[0]
       switch (this.state.body) {
         case "files":
@@ -246,7 +235,6 @@ class Dashboard extends Component {
         )
 
         default:
-        console.log("entered employee section tab")
         return(
           <>
           <InfoPanel pic={pic} name={name} sector={address} company="Cynerza Inc" contact={contact}/>
@@ -280,7 +268,6 @@ class Dashboard extends Component {
       return(
         <>
         <Option color="green" text="create client" parentClickHandler={()=>this.changeBody("client-create")}/>
-        <Option color="purple" text="create files" parentClickHandler={()=>this.changeBody("create-files")}/>
         </>
       )
     }
@@ -289,9 +276,21 @@ class Dashboard extends Component {
       return(
         <>
         <Option color="green" text="update client" parentClickHandler={()=>this.changeBody("update-form")}/>
+        {this.state.body === "files"?
         <Option color="purple" text="Add files" parentClickHandler={()=>this.changeBody("file-form")}/>
+        :""}
+        {this.state.body === "notes"?
         <Option color="blue" text="Add notes" parentClickHandler={()=>this.changeBody("notes-form")}/>
+        :""}
+        {this.state.body === "orders"?
         <Option color="orange" text="Add order" parentClickHandler={()=>this.changeBody("order-form")}/>
+        :""}
+        {this.state.body === "assignments"?
+        <div className="Dashboard-body-footer">
+            <Panel color={"green"} id="win"/>
+            <Panel color={"red"} id="fail"/>
+        </div>
+        :""}
         </>
       )
     }
@@ -316,12 +315,7 @@ class Dashboard extends Component {
     if(this.state.active === "main" && this.state.body ==="main"){
       return(
           <div className="Dashboard-body-footer">
-          <Droppable droppableId={"win"}>
-          {(provided, snapshot) =>(
-              <Panel color={"green"} provider={()=>provided} snap={()=>snapshot} id="win"/>
-
-          )}
-          </Droppable>
+              <Panel color={"green"} id="win"/>
               <Panel color={"red"} id="fail"/>
           </div>
         )
@@ -341,17 +335,8 @@ class Dashboard extends Component {
       <div className="Dashboard-Container">
 
           <Sidepanel changeState={this.changeState} activeState={this.state.active} clientpage={this.changeStatecSide}/>
-          <DragDropContext
-          onDragEnd= {this.onDragEnd}
-          >
           <div className="Dash-body">
-            <Droppable droppableId={"main-body-section"}>
-            {(provided,snapshot) =>(
-              <div className="Dashboard-body"
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              >
-
+              <div className="Dashboard-body">
                 { this.props.profile && this.props.profile.loading ? <div> loading </div> :
                   <>
                   {this.props.profile.profile.length < 1? <Profile/>  :
@@ -359,11 +344,7 @@ class Dashboard extends Component {
                     </>
                   }
                 </div>
-            )}
-            </Droppable>
-              {this.renderFooter()}
             </div>
-            </DragDropContext>
             <div className="Dashboard-MetaPanel">
             { this.props.profile && this.props.profile.loading ? "" :
               <>
@@ -373,7 +354,7 @@ class Dashboard extends Component {
               </>
             }
             </div>
-          </div>
+      </div>
       </>
       )
   }
@@ -383,7 +364,8 @@ class Dashboard extends Component {
 const mapStateToProps = state =>({
   auth: state.AuthReducer,
   profile: state.EmployeeReducer,
-  client:state.ClientReducer
+  client:state.ClientReducer,
+  time:state.TimeReducer
 })
 
-export default connect(mapStateToProps,{getProfile, getClients})(Dashboard);
+export default connect(mapStateToProps,{getProfile, getClients, getTime, updateClient})(Dashboard);

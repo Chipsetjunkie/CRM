@@ -28,3 +28,5 @@ export const ADD_NOTE_EMP = 'ADD_NOTE_EMP';
 export const GET_ASSIGNMENTS = 'GET_ASSIGNMENTS';
 export const GET_ASSIGNMENT = 'GET_ASSIGNMENT';
 export const ADD_ASSIGNMENT = 'ADD_ASSIGNMENT';
+//
+export const GET_TIME = 'GET_TIME';

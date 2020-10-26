@@ -40,7 +40,7 @@ class UpdateEmployee extends Component {
     }
 
 
-  close = () => {
+  close = e => {
     e.preventDefault()
     this.props.close()
   }

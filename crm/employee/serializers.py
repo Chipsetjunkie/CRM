@@ -45,20 +45,29 @@ class notesSerializer(serializers.ModelSerializer):
 class assignmentSerializers(serializers.ModelSerializer):
     class Meta:
         model = models.Assignment
-        fields = ['id', 'title', 'description', 'type', 'dueday', 'tags']
+        fields = ['id', 'title', 'description', 'type', 'tags', 'due_tag']
 
     def create(self, validated_data):
         request = self.context.get('request', None)
         validated_data['created_by'] = request.user.profile
         members_data, client = validated_data.pop('tags').split('|')
-        validated_data['client'] = models.Client.objects.get(id=int(client))
+        time = models.Time(deadline = validated_data.pop('due_tag'))
+        time.save()
+        client = models.Client.objects.get(id=int(client))
+        client.due_date.add(time.id)
+        client.save()
+        validated_data['dueday'] = time
+        validated_data['client'] = client
         assignment = models.Assignment(**validated_data)
         assignment.save()
+        time.Aid = assignment.id
+        time.save()
         members = models.Members()
         members.save()
-        for i in list(members_data.split(",")):
-            profile = models.Profile.objects.get(id=int(i))
-            members.people.add(profile.id)
+        if len(members_data) != 0:
+            for i in list(members_data.split(",")):
+                profile = models.Profile.objects.get(id=int(i))
+                members.people.add(profile.id)
         members.save()
         assignment.teamMembers = members
         assignment.save()
@@ -106,3 +115,10 @@ class notesSerializer(serializers.ModelSerializer):
             profile.personal_notes.add(notes.id)
             profile.save()
         return notes
+
+
+
+class TimeSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = models.Time
+        fields = "__all__"

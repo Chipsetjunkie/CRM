@@ -43,6 +43,16 @@
   border-top-right-radius: 5px;
 }
 
+#client-alert-violet{
+  width: 1.5em;
+  height: 1.5em;
+  background-image: linear-gradient(45deg, rgba(253, 251, 252) 50%, rgb(246, 206, 248) 10%,rgb(143, 8, 180));
+  box-shadow: 4px -7px 20px 5px rgba(246, 206, 248),
+              1px -1px 20px -10px rgba(221, 104, 253),
+              2px -2px 20px -10px rgba(253, 45, 97);
+
+  border-top-right-radius: 5px;
+}
 
 #client-body{
   font-family: sans-serif;

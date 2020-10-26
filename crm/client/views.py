@@ -19,7 +19,7 @@ class accessClientView(mixins.ListModelMixin, mixins.RetrieveModelMixin,
     """ Create Client Data """
     queryset = models.Client
     serializer_class = ClientGetSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         employee = models.Client.objects.filter(created_by=self.request.user.profile)
