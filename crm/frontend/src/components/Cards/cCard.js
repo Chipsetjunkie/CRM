@@ -14,7 +14,7 @@ class ClientCard extends Component {
   render() {
       return (
 
-      <div className="client-card" style={{cursor:`${this.props.click?"pointer":""}`}} onClick={this.props.click?this.clickHandler:""}>
+      <div className="client-card" style={{cursor:`${this.props.click?"pointer":""}`}} onClick={this.props.click?this.clickHandler:()=>null}>
         <div id="client-alert-container">
         <div id={`client-alert-${this.props.color}`}></div>
         </div>

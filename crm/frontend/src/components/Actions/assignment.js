@@ -53,3 +53,35 @@ export const getAssignments = () => dispatch =>{
     })
   })
 }
+
+
+
+export const updateAssignment = (data,id) => dispatch => {
+    const token = localStorage.getItem('token')
+
+    const config = {
+       headers:{
+         'Authorization': 'token '+token,
+         'Content-Type': 'application/json'
+       }
+    }
+
+    const payload = JSON.stringify(data)
+    console.log("payloasd", payload)
+    axios
+    .patch(`employee/assignment/${id}/`,payload, config)
+    .then(resp =>{
+      console.log(resp.data)
+      dispatch(
+        setError("Assignment completed",'noti-green')
+      )
+      dispatch(
+        getAssignments()
+      )
+    })
+    .catch(err =>{
+      dispatch(
+        setError("Couldn't Update Assignment",'noti-red')
+      )
+    })
+}

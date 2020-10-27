@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Note from "../Cards/notes";
 import { Scrollbars } from 'react-custom-scrollbars';
 import ClientCard from "../Cards/cCard";
-
+import {Droppable, Draggable} from 'react-beautiful-dnd';
 import {getAssignments} from "../Actions/assignment";
 import {connect} from 'react-redux';
 import {getNotes} from '../Actions/notes';
@@ -48,36 +48,6 @@ class Client extends Component {
 
   changeHandler = e =>{
     this.setState({...this.state, [e.target.name]:e.target.value})
-  }
-
-  checkdate = d =>{
-    if (d.length === 0){
-      return;
-    }
-    const now = new Date()
-    const time = d.map(d =>this.props.time.time.filter(t=> t.id ===d)[0])
-    var min = null
-    for (const i of time){
-        !min? min = new Date (i.deadline) :
-        new Date(i.deadline) < min ? min= new Date(i.deadline) : ""
-    }
-    min = new Date(min)
-
-    if (min < now){
-      return;
-    }
-
-    if(min.getDate() -now.getDate() < 3){
-      return "red";
-    }
-
-    if(now.getMonth() === min.getMonth()){
-      return "yellow";
-    }
-
-    else{
-      return "green";
-    }
   }
 
   displayMain = () => {
@@ -168,23 +138,53 @@ class Client extends Component {
     )
   }
 
+  checkdate = d =>{
+    if (d.length >1){
+      return
+    }
+    const now = new Date()
+    var time = this.props.time.time.filter(t=> t.id ===d)[0]
+    time = new Date(time.deadline)
+
+    if (time < now){
+      return;
+    }
+
+
+    if (time.getFullYear() === now.getFullYear() && time.getMonth() === now.getMonth() && time.getDate()-now.getDate() < 3){
+      return "red"
+    }
+
+    if (time.getFullYear() === now.getFullYear() && time.getMonth() === now.getMonth()){
+      return "yellow"
+    }
+
+    return "green"
+  }
+
   displayAssign = () =>{
     const time = this.props.client.client.due_date.map(dateId=>
             this.props.time.time.filter(time=> time.id == dateId))
     const asgn = time.map(t=>
             this.props.assignment.assignments.filter(a=> a.id===t[0].Aid))
     if(asgn.length>0){
-      return(asgn.map((assignment,id) =>(
-
-                <div key={"clientassing"+id} class="assign-card">
+      return(asgn.map((assignment,id) => !assignment[0].completed?(
+                <Fragment key={"clientassing"+id}>
+                <Draggable draggableId ={String(assignment[0].id)} index={id}>
+                {provided =>(
+                <div
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                ref= {provided.innerRef}
+                className="assign-card">
                 <div id="assign-alert-container">
-                <div id="assign-alert-red"></div>
+                <div id={`assign-alert-${this.checkdate(assignment[0].dueday)}`}></div>
                 </div>
-                <div class="assign-body">
-                <div class="assign-notif">
+                <div className="assign-body">
+                <div className="assign-notif">
                   <span id={`${assignment[0].type}span`}></span>
                 </div>
-                <div class="assign-content">
+                <div className="assign-content">
                   <div id="assign-title">
                         <h3>{assignment[0].title}</h3>
                   </div>
@@ -198,7 +198,10 @@ class Client extends Component {
                 </div>
               </div>
               </div>
-            )
+              )}
+              </Draggable>
+              </Fragment>
+            ):""
             )
             )
       }
@@ -265,13 +268,20 @@ class Client extends Component {
       { this.props.active === 'assignments'?
 
           <Scrollbars style={{height: 600, marginTop: "2em", width:"95%"}} autoHide>
-          <div className="client-main-file-container" style={{background:"azure"}}>
-          <>
+          <Droppable droppableId={"canvas"}>
+          {provided =>(
+          <div
+          ref = {provided.innerRef}
+          {...provided.droppableProps}
+          className="client-main-file-container" style={{background:"azure"}}>
           {
              this.displayAssign()
           }
-          </>
+      `
           </div>
+
+          )}
+          </Droppable>
           </Scrollbars>
       :""}
 

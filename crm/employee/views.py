@@ -50,7 +50,7 @@ class createAssignmentView(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
 
 class accessAssignmentView(mixins.ListModelMixin, mixins.RetrieveModelMixin,
-                           viewsets.GenericViewSet):
+                           mixins.UpdateModelMixin,viewsets.GenericViewSet):
     """ For deleting, updating and retreiving notes """
     serializer_class = assignmentGetSerializers
     queryset = models.Assignment.objects.all()

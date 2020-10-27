@@ -72,7 +72,7 @@ class Assignment extends Component {
 
   }
 
-  checkdate = (date) => {
+  checkdate = date => {
     const d= new Date()
     if (date.getFullYear() < d.getFullYear()){
         return false
@@ -206,7 +206,10 @@ class Assignment extends Component {
 submitHandler = e =>{
   e.preventDefault();
   const date = this.dateconverter(this.state.date, this.state.time)
-
+  if (!this.state.client){
+    this.setState({...this.state, error:"Client not selected"})
+    return;
+  }
   var data = {
       title:this.state.title,
       tags:`${this.state.member}|${this.state.client}`,

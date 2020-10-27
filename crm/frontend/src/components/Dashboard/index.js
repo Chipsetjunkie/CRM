@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
 import { getProfile } from "../Actions/profile";
 import {getClients} from "../Actions/client";
-import {getAssignments} from "../Actions/assignment";
+import {updateAssignment} from "../Actions/assignment";
 import {getTime} from "../Actions/time";
 import {updateClient} from "../Actions/client";
 import Sidepanel from "../Sidepanel";
@@ -11,6 +11,7 @@ import Profile from "../Profile";
 import Option from "../Cards/Option";
 import ClientForm from "../Cards/Client";
 import ClientCard from "../Cards/cCard";
+import {DragDropContext} from 'react-beautiful-dnd';
 import Panel from "../Panels";
 // Client meta functions
 import ClientAddFile from "../Client/clientfiles";
@@ -263,6 +264,17 @@ class Dashboard extends Component {
   }
 
 
+  dragEnd = result =>{
+      const {destination, source, draggableId} = result;
+      if(destination.droppableId === "win"){
+        this.props.updateAssignment({completed:true}, draggableId)
+      }
+      if(destination.droppableId === "fail"){
+        console.log("oh no")
+      }
+  }
+
+
   renderMeta = () =>{
     if (this.state.active === "main"){
       return(
@@ -310,7 +322,6 @@ class Dashboard extends Component {
 
   }
 
-
   renderFooter = () => {
     if(this.state.active === "main" && this.state.body ==="main"){
       return(
@@ -335,6 +346,9 @@ class Dashboard extends Component {
       <div className="Dashboard-Container">
 
           <Sidepanel changeState={this.changeState} activeState={this.state.active} clientpage={this.changeStatecSide}/>
+          <DragDropContext
+            onDragEnd = {this.dragEnd}
+          >
           <div className="Dash-body">
               <div className="Dashboard-body">
                 { this.props.profile && this.props.profile.loading ? <div> loading </div> :
@@ -354,6 +368,7 @@ class Dashboard extends Component {
               </>
             }
             </div>
+          </DragDropContext>
       </div>
       </>
       )
@@ -368,4 +383,4 @@ const mapStateToProps = state =>({
   time:state.TimeReducer
 })
 
-export default connect(mapStateToProps,{getProfile, getClients, getTime, updateClient})(Dashboard);
+export default connect(mapStateToProps,{getProfile, getClients, getTime, updateClient, updateAssignment})(Dashboard);

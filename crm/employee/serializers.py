@@ -79,7 +79,6 @@ class assignmentGetSerializers(serializers.ModelSerializer):
         model = models.Assignment
         fields = '__all__'
 
-
 class filesSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Files
