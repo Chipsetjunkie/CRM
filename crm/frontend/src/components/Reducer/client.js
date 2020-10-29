@@ -21,6 +21,18 @@ export const ClientReducer = (state= initialState, action) =>{
         }
 
 
+    case actiontypes.DELETE_DUE:
+        var clients = state.clients.filter(cliet => cliet.id !== state.client.id)
+        var client_date = state.client.due_date.filter(d => parseInt(d)!== parseInt(action.payload))
+        var c = state.client
+        c.due_date = client_date
+        clients.push(c)
+        return{
+              clients:clients,
+              client:c
+            }
+
+
     default:
       return state
   }

@@ -8,7 +8,7 @@ from .serializers import profileSerializer, notesSerializer,\
 from api import models;
 from rest_framework import status;
 from rest_framework.response import Response;
-
+from django.conf import settings
 
 class EmployeeView(mixins.CreateModelMixin, viewsets.GenericViewSet):
     """ Creates employee """
@@ -22,14 +22,14 @@ class EmployeeView(mixins.CreateModelMixin, viewsets.GenericViewSet):
 class accessEmployeeView(mixins.ListModelMixin, mixins.RetrieveModelMixin,
                          mixins.DestroyModelMixin, viewsets.GenericViewSet,
                          mixins.UpdateModelMixin):
-    """ Update employee views and mainly for files """
+    """ Update employee views """
     serializer_class = profileGetSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         employee = models.Profile.objects.filter(owner_id=self.request.user)
         return employee
-        # return models.Profile.objects.all()
+
 
 class accessAllProfile(mixins.ListModelMixin, mixins.RetrieveModelMixin,
                          mixins.DestroyModelMixin, viewsets.GenericViewSet,
@@ -40,6 +40,7 @@ class accessAllProfile(mixins.ListModelMixin, mixins.RetrieveModelMixin,
     def get_queryset(self):
         employee = models.Profile.objects.all().exclude(owner_id=self.request.user)
         return employee
+
 
 class createAssignmentView(mixins.CreateModelMixin, viewsets.GenericViewSet):
     """ Creates assignment """
@@ -114,8 +115,16 @@ class logoutUser(APIView):
 
 
 class accessTimeView(mixins.ListModelMixin, mixins.RetrieveModelMixin,
-                    viewsets.GenericViewSet):
+                    mixins.DestroyModelMixin,viewsets.GenericViewSet):
     """ Access Time """
     queryset= models.Time.objects.all()
     serializer_class = TimeSerializers
     permission_classes = [IsAuthenticated]
+
+
+class UrlsView(APIView):
+
+    def get(self,request, format=None):
+        return Response({
+            "links":str(settings.MEDIA_URL)
+        })

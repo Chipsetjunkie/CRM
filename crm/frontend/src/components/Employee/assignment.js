@@ -22,12 +22,14 @@ class Assignment extends Component {
     date: new Date(),
     member:[],
     client:null,
-    time: '10:00',
+    time: String(new Date().getMinutes()).length === 1? new Date().getHours()+":0"+new Date().getMinutes():new Date().getHours()+":"+new Date().getMinutes(),
     clientstyle: "None",
     memstyle: "None",
     pic_c:"null",
     member_pics:{},
-    error:null
+    error:null,
+    member_query:"",
+    client_query:""
   }
 
   componentDidMount(){
@@ -58,10 +60,14 @@ class Assignment extends Component {
 ]
 
 
+  onChangeI = e => {
+    this.setState({...this.state, [e.target.name]: e.target.value})
+  }
 
   onChangeT = time => {
-    const d = this.dateconverter(this.state.date,this.state.time)
+    const d = this.dateconverter(this.state.date,time)
     const n = new Date()
+
     if(d>n){
 
       this.setState({...this.state, time, error:null })
@@ -139,21 +145,21 @@ class Assignment extends Component {
   }
 
   displayClients = () =>{
-    return(this.props.clients.clients.map((client,id)=>(
+    return(this.props.clients.clients.map((client,id)=> client.name.includes(this.state.client_query)?(
       <Fragment key={client.id+client.name} >
         <div style={{display:"flex",alignItems:"center"}}>
         <img src={client.pic} width="20px" height="20px"></img>
         <p value={client.id} onClick={()=>this.selectClient(client.id,client.pic)} style={{textTransform:"capitalize"}}>{client.name}</p>
         </div>
       </Fragment>
-    )
+    ):""
   )
   )
   }
 
   displayMembers = () =>{
     if (this.props.profiles.profiles){
-    return(this.props.profiles.profiles.map((profile,id) => (
+    return(this.props.profiles.profiles.map((profile,id) => profile.name.includes(this.state.member_query)(
       <Fragment key={profile.id+profile.name} >
         {!this.state.member.includes(profile.id)?
         <div style={{display:"flex",alignItems:"center"}}>
@@ -228,7 +234,7 @@ submitHandler = e =>{
 
 
   render() {
-
+    
     return (
       <div className="AssignContainer">
       <div className="calender">
@@ -270,9 +276,9 @@ submitHandler = e =>{
                           X
                         </div>
                         <div>
-                          <input type="text"></input>
+                          <input name="member_query" onChange={this.onChangeI} value={this.state.member_query}></input>
                         </div>
-                        <div>
+                        <div style={{maxHeight:"6em", overflowY:"scroll"}}>
                         {this.displayMembers()}
                       </div>
                   </div>
@@ -298,9 +304,9 @@ submitHandler = e =>{
                         X
                       </div>
                       <div>
-                        <input type="text"></input>
+                        <input name="client_query" onChange={this.onChangeI} value={this.state.client_query}></input>
                       </div>
-                      <div>
+                      <div  style={{height:"6em", overflowY:"scroll"}}>
                       {this.displayClients()}
                     </div>
                   </div>

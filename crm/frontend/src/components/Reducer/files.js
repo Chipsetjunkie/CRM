@@ -2,9 +2,7 @@ import * as actiontypes from  "../Actions/types";
 
 const initialState = {
   files:[],
-  file:null,
-  files_emp:[],
-  file_emp:null
+  files_emp:[]
 }
 
 const clean_data = (id,data) =>{
@@ -28,7 +26,6 @@ export const FileReducer = (state= initialState, action) =>{
         }
 
       case actiontypes.ADD_FILE:
-        console.log("entered reducer")
         var files = state.files
         files.unshift(action.payload)
         return{
@@ -36,19 +33,23 @@ export const FileReducer = (state= initialState, action) =>{
           files:files
         }
 
-      case actiontypes.GET_FILE:
-        return{
-          ...this.state,
-          file:action.payload
-        }
+
 
       case actiontypes.DELETE_FILE:
-        notes = notes.filter(note => note.id !== payload.id)
+        const files_up = state.files.filter(file => file.id !== action.payload)
         return{
           ...state,
-          files:notes,
-          file: null
+          files:files_up
         }
+
+      case actiontypes.DELETE_FILE_EMP:
+          const files_upe = state.files_emp.filter(file => file.id !== action.payload)
+          return{
+            ...state,
+            files_emp:files_upe
+          }
+
+
 
       case actiontypes.GET_FILES_EMP:
           const payload_emp = clean_data(action.payload.id, action.payload.data)
@@ -58,12 +59,11 @@ export const FileReducer = (state= initialState, action) =>{
           }
 
       case actiontypes.ADD_FILE_EMP:
-          console.log("entered reducer")
-          var files = state.files_emp
-          files.unshift(action.payload)
+          var filesem = state.files_emp
+          filesem.unshift(action.payload)
           return{
             ...state,
-            files_emp:files
+            files_emp:[filesem]
           }
 
 

@@ -159,7 +159,7 @@ export const updateEmployeeNotes = (data,id) => dispatch =>{
 
 
 
-export const updateEmployeeFile = (data,id) => dispatch =>{
+export const updateEmployeeFile = (data,id) => async dispatch =>{
   const token = localStorage.getItem('token')
 
   const config = {

@@ -22,6 +22,8 @@ export const EmployeeReducer = (state= initialState, action) =>{
           ...state,
           profiles: payload
         }
+
+
       default:
         return state
     }

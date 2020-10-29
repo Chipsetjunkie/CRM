@@ -2,7 +2,7 @@ import axios from 'axios';
 import {setError} from "./error";
 import { getProfile } from "./profile";
 import {  addNote } from "./notes";
-import { addOrder } from "./order";
+import { getOrders } from "./order";
 import { addFile } from "./files";
 import * as actiontypes from  "./types";
 
@@ -135,7 +135,6 @@ export const updateClient = (data,id) => dispatch =>{
 
   })
   .catch(err =>{
-    console.log(err)
     dispatch(
       setError("Update failed",'noti-red')
     )
@@ -160,7 +159,6 @@ export const updateClientNotes = (data,id) => dispatch =>{
   axios
   .post(`create/client/note/`, data, config)
   .then(resp =>{
-    console.log(resp.data)
     dispatch(
        addNote(resp.data)
     )
@@ -193,9 +191,6 @@ export const updateClientFile = (data,id) => dispatch =>{
     formData.append(i[0], i[1])
   }
 
-  for(var i of formData.entries()){
-    console.log(i)
-  }
 
   axios
   .post(`create/client/file/`, formData, config)
@@ -217,7 +212,7 @@ export const updateClientFile = (data,id) => dispatch =>{
 }
 
 
-export const updateClientOrder = (data,id) => dispatch =>{
+export const updateClientOrder = (data,id,orders) => dispatch =>{
   const token = localStorage.getItem('token')
 
   const config = {
@@ -236,8 +231,9 @@ export const updateClientOrder = (data,id) => dispatch =>{
     dispatch(
       setError(" Order Added",'noti-green')
     )
+    orders.push(resp.data.id)
     dispatch(
-       addOrder(resp.data)
+       getOrders(orders)
     )
 
   })

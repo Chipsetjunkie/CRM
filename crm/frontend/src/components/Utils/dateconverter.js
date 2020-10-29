@@ -35,9 +35,12 @@ export const displayTimeLine = data =>{
     return `${date.getDate()}, ${months[date.getMonth()]}`
   }
 
-  if (date.getDate() > d.getDate()){
+  if (date.getDate() - d.getDate()>1 ){
     return` ${date.getDate()} ${days[date.getDay()]}`
   }
 
+  else{
+    return `${date.getHours()}: ${date.getMinutes()}`
+  }
 
 }

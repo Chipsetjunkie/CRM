@@ -106,3 +106,9 @@ class orderSerializer(serializers.ModelSerializer):
             client.orders.add(order.id)
             client.save()
         return order
+
+
+class orderGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Order
+        fields = "__all__"

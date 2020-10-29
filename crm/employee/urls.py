@@ -21,5 +21,6 @@ router.register('access/time', views.accessTimeView, 'access-time')
 urlpatterns = [
     path('', include(router.urls)),
     path('api/login', obtain_auth_token, name='token_obtain_pair'),
-    path('api/logout', views.logoutUser.as_view(), name='token_verify')
+    path('api/logout', views.logoutUser.as_view(), name='token_verify'),
+    path('api/links', views.UrlsView.as_view(), name="links")
 ]

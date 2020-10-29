@@ -2,7 +2,7 @@ from rest_framework import viewsets, mixins
 from rest_framework.permissions import IsAuthenticated
 from .serializers import ClientSerializer,ClientGetSerializer,\
                          notesSerializer,filesSerializer,\
-                         orderSerializer
+                         orderSerializer,orderGetSerializer
 from api import models
 
 
@@ -67,8 +67,9 @@ class accessNoteView(mixins.ListModelMixin, mixins.RetrieveModelMixin,
 
 
 class accessOrderView(mixins.ListModelMixin, mixins.RetrieveModelMixin,
-                     mixins.DestroyModelMixin, viewsets.GenericViewSet):
-        serializer_class = orderSerializer
+                     mixins.DestroyModelMixin, viewsets.GenericViewSet,
+                     mixins.UpdateModelMixin):
+        serializer_class = orderGetSerializer
         permission_classes = [IsAuthenticated]
 
         def get_queryset(self):

@@ -14,6 +14,13 @@ class Auth extends Component {
     this.setState(prevState=>({flipped:!prevState.flipped}));
   }
 
+  componentDidMount(){
+    document.documentElement.style.setProperty('--main', '#6f86d6');
+    document.documentElement.style.setProperty('--gradient', 'linear-gradient(#48c6ef,#6f86d6)');
+  }
+
+
+
   render() {
     console.log(this.state.loggedIn)
     return (

@@ -4,7 +4,6 @@ import "./styles/nav.css";
 class NavBar extends Component {
 
   state = {
-    active:this.props.id,
     vals:{
       'client': ["notes", "files", "orders", "assignments"],
       'employee': ["notes", "files", "assignments"]
@@ -20,7 +19,7 @@ class NavBar extends Component {
 
   display = () => {
     const vals = this.state.vals[this.props.page]
-    return vals.map((value,id) => id===this.state.active ?(
+    return vals.map((value,id) => id===this.props.id ?(
       <span key={id+value} id="active" onClick= {()=>this.clickHandler(id)}>{value}</span>
     ):(
       <span key={id+value} onClick= {()=>this.clickHandler(id)}>{value}</span>

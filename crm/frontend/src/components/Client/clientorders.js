@@ -8,13 +8,15 @@ class ClientOrder extends Component {
   state = {
     item:"",
     quantity:"",
-    demand:""
+    demand:"",
+    error:""
   }
 
   submitHandler = e =>{
     e.preventDefault()
+    delete this.state['error']
     if (inputvalidated(this.state)){
-      this.props.updateClientOrder(this.state, this.props.client.client.id)
+      this.props.updateClientOrder(this.state, this.props.client.client.id, this.props.client.client.orders)
       this.setState({
         item:"",
         quantity:"",
@@ -29,7 +31,15 @@ class ClientOrder extends Component {
   }
 
   changeHandler = e => {
-    this.setState({[e.target.name]:e.target.value})
+    if(e.target.name !== "item"){
+      if(e.target.value.length !==0 && isNaN(parseInt(e.target.value))){
+        this.setState({...this.state, error:"invalid entries"})
+        return;
+      }
+
+
+    }
+    this.setState({...this.state, [e.target.name]:e.target.value, error:""})
   }
 
 
@@ -41,9 +51,12 @@ class ClientOrder extends Component {
 
   render() {
     return (
+      <>
       <form className="Order-form" method="post" onSubmit={this.submitHandler}>
+      {this.state.error.length > 0? <p style={{display:"flex", justifyContent:"center", color:"red"}}>*{this.state.error}</p>:<p style={{opacity:0}}>a</p>}
       <p> Order </p>
       <hr></hr>
+
       <p><label htmlFor="item"> Item </label></p>
       <p><input type="text" name="item" value={this.state.item} onChange={this.changeHandler}></input></p>
       <p><label htmlFor="quantity"> Quantity </label></p>
@@ -51,10 +64,12 @@ class ClientOrder extends Component {
       <p><label htmlFor="qoute"> Qoute </label></p>
       <p><input type="text" name="demand" value={this.state.demand} onChange={this.changeHandler}></input></p>
       <div className="order-submit-container">
-      <p><input type="submit" value="Update"></input></p>
+      <p><input type="submit" value="Add"></input></p>
       <p><input type="submit" value="Close" onClick={this.close}></input></p>
       </div>
     </form>
+
+    </>
     );
   }
 

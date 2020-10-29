@@ -1,8 +1,7 @@
 import * as actiontypes from  "../Actions/types";
 
 const initialState = {
-    assignments:[],
-    assignment:null
+    assignments:[]
 }
 
 export const AssignmentReducer = (state= initialState, action) =>{
@@ -26,6 +25,12 @@ export const AssignmentReducer = (state= initialState, action) =>{
       return{
         ...state,
         assignments:ass
+      }
+
+    case actiontypes.DELETE_ASSIGNMENT:
+      var assgn = state.assignments.filter(ass=> parseInt(ass.id) !== parseInt(action.payload))
+      return{
+        assignments:assgn
       }
 
     default:

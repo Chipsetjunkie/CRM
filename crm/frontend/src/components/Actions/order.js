@@ -30,11 +30,35 @@ export const getOrders = id => async dispatch =>{
 }
 
 
-export const addOrder = order => dispatch =>{
 
+export const updateOrder = (data,id) => dispatch =>{
+
+  const token = localStorage.getItem('token')
+
+  const config = {
+        headers:{
+          'Authorization': 'token ' +token,
+          'Content-Type': 'application/json'
+        }
+    }
+
+  const payload = JSON.stringify(data)
+
+  axios
+  .patch(`client/orders/${id}/`, payload, config)
+  .then(resp=>{
+    dispatch(
+      setError("Order updated", "noti-green")
+    )
     dispatch({
-      type:actiontypes.ADD_ORDER,
-      payload: order
+      type:actiontypes.UPDATE_ORDER,
+      payload:resp.data
     })
+  })
+  .catch(err=>{
+    dispatch(
+      setError("Order updation failed", "noti-red")
+    )
+  })
 
 }

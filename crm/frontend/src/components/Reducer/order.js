@@ -16,6 +16,18 @@ const clean_data = (id,data) =>{
   return final
 }
 
+
+const update_order = (orders,data) =>{
+  console.log('entered upadte')
+    for(var i of orders){
+        if(i.id === data.id){
+          i['completed'] = data.completed
+        }
+    }
+    return orders
+
+}
+
 export const OrderReducer = (state= initialState, action) =>{
     switch (action.type) {
       case actiontypes.GET_ORDERS:
@@ -26,7 +38,6 @@ export const OrderReducer = (state= initialState, action) =>{
         }
 
       case actiontypes.ADD_ORDER:
-        console.log("entered reducer")
         var orders = state.orders
         orders.unshift(action.payload)
         return{
@@ -39,6 +50,13 @@ export const OrderReducer = (state= initialState, action) =>{
           ...this.state,
           order:action.payload
         }
+
+     case actiontypes.UPDATE_ORDER:
+          const new_payload = update_order(state.orders,action.payload)
+          return{
+            ...state,
+            orders:new_payload
+          }
 
       case actiontypes.DELETE_ORDER:
         notes = notes.filter(note => note.id !== payload.id)

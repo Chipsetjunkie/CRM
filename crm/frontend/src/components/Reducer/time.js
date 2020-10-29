@@ -15,6 +15,14 @@ export const TimeReducer = (state= initialState, action) =>{
 
           }
 
+      case actiontypes.DELETE_TIME:
+
+        const new_time = state.time.filter(time => parseInt(time.id) !== parseInt(action.payload))
+        return {
+          ...state,
+          time:new_time
+        }
+
       default:
         return state
     }

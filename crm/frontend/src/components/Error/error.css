@@ -5,7 +5,7 @@
   border-radius: 5px;
   border:1px solid black rgba(0,0,0,0.1);
   background: rgba(0,0,0,0.8);
-
+  padding: 10px;
 }
 
 #notif-body{

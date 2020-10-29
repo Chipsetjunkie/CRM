@@ -95,8 +95,7 @@ class filesSerializer(serializers.ModelSerializer):
             file.save()
             profile.file.add(file.id)
             profile.save()
-        return file
-
+            return file
 
 class notesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -121,3 +120,6 @@ class TimeSerializers(serializers.ModelSerializer):
     class Meta:
         model = models.Time
         fields = "__all__"
+
+class urlSerializers(serializers.Serializer):
+    link = serializers.CharField(max_length=100)

@@ -12,11 +12,20 @@ class ClientCard extends Component {
   }
 
   render() {
+      const time = this.props.timedata.map(dateId=>
+            this.props.time.time.filter(time=> time.id == dateId))
+      const asgn = time.map(t=>
+            this.props.assignment.assignments.filter(a=> a.id===t[0].Aid))
       return (
 
       <div className="client-card" style={{cursor:`${this.props.click?"pointer":""}`}} onClick={this.props.click?this.clickHandler:()=>null}>
         <div id="client-alert-container">
-        <div id={`client-alert-${this.props.color}`}></div>
+        <div style={{fontSize:"12px",marginRight:"12px", marginTop:"2px", color:"rgba(255,0,150)"}}>
+          {asgn.length > 0 && asgn[0].length >0?
+            parseInt((asgn.filter(a => a[0].completed===true).length/asgn.length)*100)+"%"=== "100%"?
+            "":parseInt((asgn.filter(a => a[0].completed===true).length/asgn.length)*100)+"%"
+            :""}
+        </div>
         </div>
         <div id="client-body">
           <p> {this.props.name} </p>
@@ -28,4 +37,9 @@ class ClientCard extends Component {
   }
 }
 
-export default connect(null, {getClient})(ClientCard);
+const mapStateToProps = state =>({
+  assignment:state.AssignmentReducer,
+  time:state.TimeReducer
+})
+
+export default connect(mapStateToProps, {getClient})(ClientCard);

@@ -26,13 +26,14 @@ class Sidepanel extends Component {
   }
 
   displayMenu =() =>{
-    const options = ["main", "client", "employee", "calender", "files", "performance"]
+    const options = ["main", "client", "employee"]
 
     return(options.map((option,index) =>(
         <Fragment key={index}>
         {this.state.active === option?
-        <p id="Sidebar-item" ><span name={option}  className="text-color active" onClick={this.clickHandler}>{index+1}</span> </p>
-        : <p id="Sidebar-item" ><span name={option}  className="text-color" onClick={this.clickHandler}>{index+1}</span> </p>}
+        <p id="Sidebar-item" >
+                  <img src={`media/assets/${option}.png`} name={option} className="text-color active" onClick={this.clickHandler}></img></p>
+        : <p id="Sidebar-item"><img src={`media/assets/${option}.png`} name={option} className="text-color" onClick={this.clickHandler}></img></p>}
         </Fragment>
     ))
   )
@@ -48,7 +49,7 @@ class Sidepanel extends Component {
               {this.displayMenu()}
             <p></p>
             <p></p>
-            <p id="Sidebar-item" className="logout" onClick={this.loggedOut}>logout</p>
+            <p id="Sidebar-item" className="logout" onClick={this.loggedOut}><img src="media/assets/logout.png"></img></p>
           </div>
       </div>
 

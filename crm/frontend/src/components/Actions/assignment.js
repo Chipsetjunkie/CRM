@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as actiontypes from  "./types";
 import axios from 'axios';
 import {setError} from "./error";
+import {deleteTime, getTime} from "./time";
 
 
 export const createAssignment = data => dispatch =>{
@@ -24,6 +25,9 @@ export const createAssignment = data => dispatch =>{
     )
     dispatch(
       setError("Assignment added",'noti-green')
+    )
+    dispatch(
+      getTime()
     )
   })
   .catch(err =>{
@@ -67,7 +71,6 @@ export const updateAssignment = (data,id) => dispatch => {
     }
 
     const payload = JSON.stringify(data)
-    console.log("payloasd", payload)
     axios
     .patch(`employee/assignment/${id}/`,payload, config)
     .then(resp =>{

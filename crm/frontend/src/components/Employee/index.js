@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import Note from "../Cards/notes";
 import { Scrollbars } from 'react-custom-scrollbars';
+import Slider from "../Cards/slider.js";
 
 import {connect} from 'react-redux';
 import {getNotesEmp} from '../Actions/notes';
-import {getFilesEmp} from '../Actions/files';
+import {getFilesEmp, deleteFileemp} from '../Actions/files';
 import {getAssignments} from "../Actions/assignment";
 import {displayTimeLine} from "../Utils/dateconverter";
 
@@ -17,7 +18,7 @@ import "./styles/assigncard.css";
 class Employee extends Component {
 
   state ={
-    display:'none'
+    assignmode:'false'
   }
 
   componentDidMount(){
@@ -41,10 +42,10 @@ class Employee extends Component {
     window.open(f);
   }
 
-  openFileMenu = () =>{
-    this.state.display !== "flex"?
-    this.setState({...this.state, display:"flex"}):
-    this.setState({...this.state, display:"none"})
+  openFileMenu = id =>{
+    const a = confirm("Do you want to delete this file")
+    const call = this.props.files.files_emp.length === 1 ?true:false
+    a?this.props.deleteFileemp(id,call):""
   }
 
   displayNotes = () => {
@@ -63,12 +64,7 @@ class Employee extends Component {
 
       <div key = {id+"fileemp"+file.name} className="file-card">
           <div className="file-dropdown">
-            <div style={{display:this.state.display}} id="file-menu">
-              <p> Update</p>
-              <p id="vl"></p>
-              <p> Delete </p>
-            </div>
-            <p onClick = {this.openFileMenu} style={{cursor:"pointer"}}>...</p>
+            <p onClick = {()=>this.openFileMenu(file.id)} style={{cursor:"pointer"}}>x</p>
           </div>
           <div id="file-body">
             <p onClick={()=>this.openFile(file.files)} style={{cursor:"pointer"}}> X </p>
@@ -89,20 +85,54 @@ class Employee extends Component {
     return "#"+c[0].name.slice(0,7)+"..."
   }
 
+  checkdate = d =>{
+    console.log(d)
+    if (d.length >1 || d.length===0){
+      return
+    }
+    const now = new Date()
+    var time = this.props.time.time.filter(t=> t.id ===d)[0]
+    time = new Date(time.deadline)
+
+    if (time < now){
+      return;
+    }
+
+
+    if (time.getFullYear() === now.getFullYear() && time.getMonth() === now.getMonth() && time.getDate()-now.getDate() < 3){
+      return "red"
+    }
+
+    if (time.getFullYear() === now.getFullYear() && time.getMonth() === now.getMonth()){
+      return "yellow"
+    }
+
+    return "green"
+  }
+
+  changeAssign = mode =>{
+    this.setState({...this.state, assignmode:mode})
+  }
+
+  modeCheck = a =>{
+    return this.state.assignmode? !a.completed: a.completed
+  }
+
   displayAssignments = () => {
     const asgn = this.props.assignment.assignments
+    console.log("assign",asgn)
     if(asgn.length>0){
       const time = this.props.time.time
-      return(asgn.map((assignment,id) =>(
-        <div key={"empaassing"+id} class="assign-card">
+      return(asgn.map((assignment,id) =>this.modeCheck(assignment)?(
+        <div key={"empaassing"+id} className="assign-card">
         <div id="assign-alert-container">
-        <div id="assign-alert-red"></div>
+        <div id={`assign-alert-${this.checkdate(assignment.dueday)}`}></div>
         </div>
-        <div class="assign-body">
-        <div class="assign-notif">
+        <div className="assign-body">
+        <div className="assign-notif">
           <span id={`${assignment.type}span`}></span>
         </div>
-        <div class="assign-content">
+        <div className="assign-content">
           <div id="assign-title">
                 <h3>{assignment.title} {this.getClient(assignment.client)}</h3>
           </div>
@@ -116,7 +146,7 @@ class Employee extends Component {
         </div>
       </div>
       </div>
-    )
+    ):""
   )
   )
   }
@@ -147,7 +177,10 @@ class Employee extends Component {
       :""}
 
       { this.props.active === 'assignment'?
-
+            <>
+          <div style={{display:"flex", justifyContent:"flex-end"}}>
+          <Slider assign={this.changeAssign}/>
+          </div>
           <Scrollbars style={{height: 600, marginTop: "2em", width:"95%"}} autoHide>
           <div className="client-main-file-container">
           {
@@ -155,6 +188,7 @@ class Employee extends Component {
           }
           </div>
           </Scrollbars>
+          </>
       :""}
       </>
     );
@@ -171,4 +205,4 @@ const mapStateToProps = state =>({
   time:state.TimeReducer
 })
 
-export default connect(mapStateToProps,{getNotesEmp, getFilesEmp, getAssignments})(Employee);
+export default connect(mapStateToProps,{getNotesEmp, getFilesEmp, getAssignments, deleteFileemp})(Employee);

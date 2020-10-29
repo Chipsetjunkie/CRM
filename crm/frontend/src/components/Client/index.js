@@ -6,9 +6,10 @@ import {Droppable, Draggable} from 'react-beautiful-dnd';
 import {getAssignments} from "../Actions/assignment";
 import {connect} from 'react-redux';
 import {getNotes} from '../Actions/notes';
-import {getOrders} from '../Actions/order';
-import {getFiles} from '../Actions/files';
+import {getOrders, updateOrder} from '../Actions/order';
+import {getFiles,deleteFile} from '../Actions/files';
 import {displayTimeLine} from "../Utils/dateconverter";
+import Slider from "../Cards/slider.js";
 
 import "./styles/main_notes.css";
 import "./styles/main_order.css";
@@ -21,7 +22,7 @@ class Client extends Component {
 
   state = {
     query:"",
-    display:"none"
+    assignmode:"false"
   }
 
   componentDidMount(){
@@ -45,16 +46,25 @@ class Client extends Component {
     }
   }
 
+  changeAssign = mode =>{
+    this.setState({...this.state, assignmode:mode})
+  }
 
   changeHandler = e =>{
     this.setState({...this.state, [e.target.name]:e.target.value})
   }
+
+  changeOrder = (e,id) =>{
+    this.props.updateOrder({completed:e.target.checked},id)
+  }
+
 
   displayMain = () => {
     if(this.props.client.clients.length > 0){
       return( this.props.client.clients.map((client,id) => client.company.includes(this.state.query)?(
           <span key={id}>
           <ClientCard
+          timedata={client.due_date}
           click = {true}
           client_id={client.id}
           name={client.company}
@@ -87,13 +97,16 @@ class Client extends Component {
     return(
     this.props.orders.orders.map((order,id) => (
       <div  key={id+order.item} className="order-container">
+        <div style={{display:"flex", justifyContent:"flex-end"}}>
+          <input style={{marginRight:"5px",marginTop:"5px"}} onChange={e =>this.changeOrder(e,order.id)} checked={order.completed} type="checkbox"></input>
+        </div>
         <div className="order-body">
         <p>Item: <span>{order.item}</span></p>
         <p>Quantity: <span>{order.quantity}</span></p>
         <p>Qoute: <span>{order.demand} $</span></p>
         </div>
-        <div id="complete-false">
-          <p>incomplete</p>
+        <div id={`complete-${order.completed}`}>
+          <p>{order.completed?"completed":"incomplete"}</p>
         </div>
       </div>
     )
@@ -105,10 +118,10 @@ class Client extends Component {
      window.open(f);
   }
 
-  openFileMenu = () =>{
-    this.state.display!=="flex"?
-    this.setState({...this.state, display:"flex"})
-    :this.setState({...this.state, display:"none"})
+  openFileMenu = id =>{
+      const a = confirm("Do you want to delete this file")
+      const call = this.props.files.files.length === 1 ?true:false
+      a?this.props.deleteFile(id,call,this.props.client.client.id):""
   }
 
   displayFiles = () =>{
@@ -117,12 +130,7 @@ class Client extends Component {
 
       <div key = {id+file.name} className="file-card" >
           <div className="file-dropdown">
-            <div style={{display:this.state.display}} id="file-menu">
-              <p> Update</p>
-              <p id="vl"></p>
-              <p> Delete </p>
-            </div>
-            <p onClick = {this.openFileMenu} style={{cursor:"pointer"}}>...</p>
+            <p onClick = {()=>this.openFileMenu(file.id)} style={{cursor:"pointer"}}>x</p>
           </div>
           <div id="file-body">
             <p onClick={()=>this.openFile(file.files)} style={{cursor:"pointer"}}> X </p>
@@ -139,7 +147,7 @@ class Client extends Component {
   }
 
   checkdate = d =>{
-    if (d.length >1){
+    if (d.length >1 || d.length===0 || typeof(d)==="object"){
       return
     }
     const now = new Date()
@@ -162,13 +170,19 @@ class Client extends Component {
     return "green"
   }
 
+
+  modeCheck = a =>{
+    return this.state.assignmode? !a.completed: a.completed
+  }
+
   displayAssign = () =>{
     const time = this.props.client.client.due_date.map(dateId=>
             this.props.time.time.filter(time=> time.id == dateId))
+
     const asgn = time.map(t=>
             this.props.assignment.assignments.filter(a=> a.id===t[0].Aid))
     if(asgn.length>0){
-      return(asgn.map((assignment,id) => !assignment[0].completed?(
+      return(asgn.map((assignment,id) => this.modeCheck(assignment[0])?(
                 <Fragment key={"clientassing"+id}>
                 <Draggable draggableId ={String(assignment[0].id)} index={id}>
                 {provided =>(
@@ -207,9 +221,6 @@ class Client extends Component {
       }
   }
 
-
-
-
   displayDashboard = () => {
     if(this.props.client.clients.length > 0){
 
@@ -217,6 +228,7 @@ class Client extends Component {
 
           <span key={id}>
           <ClientCard
+          timedata = {client.due_date}
           index = {id}
           color={this.checkdate(client.due_date)}
           client_id={client.id}
@@ -266,23 +278,26 @@ class Client extends Component {
       :""}
 
       { this.props.active === 'assignments'?
-
-          <Scrollbars style={{height: 600, marginTop: "2em", width:"95%"}} autoHide>
+          <>
+          <div style={{display:"flex", justifyContent:"flex-end"}}>
+          <Slider assign={this.changeAssign}/>
+          </div>
+          <Scrollbars style={{height: 600, marginTop:"1em", width:"95%"}} autoHide>
           <Droppable droppableId={"canvas"}>
           {provided =>(
           <div
           ref = {provided.innerRef}
           {...provided.droppableProps}
-          className="client-main-file-container" style={{background:"azure"}}>
+          className="client-main-file-container" style={{marginTop:0}}>
           {
              this.displayAssign()
           }
-      `
           </div>
 
           )}
           </Droppable>
           </Scrollbars>
+          </>
       :""}
 
 
@@ -307,10 +322,14 @@ class Client extends Component {
       { this.props.active === 'dashboard'?
 
           <Scrollbars style={{height: 600, marginTop: "2em", width:"95%"}} autoHide>
+            <div className="client-main-body-container">
+
           {
              this.displayDashboard()
           }
+          </div>
           </Scrollbars>
+
       :""}
 
       </>
@@ -327,4 +346,4 @@ const mapStateToProps = state =>({
   time:state.TimeReducer
 })
 
-export default connect(mapStateToProps, {getNotes, getOrders, getFiles, getAssignments})(Client);
+export default connect(mapStateToProps, {getNotes, getOrders, getFiles, getAssignments, updateOrder, deleteFile})(Client);

@@ -4,8 +4,9 @@ import { connect } from "react-redux";
 import { getProfile } from "../Actions/profile";
 import {getClients} from "../Actions/client";
 import {updateAssignment} from "../Actions/assignment";
-import {getTime} from "../Actions/time";
+import {getTime, deleteTime} from "../Actions/time";
 import {updateClient} from "../Actions/client";
+
 import Sidepanel from "../Sidepanel";
 import Profile from "../Profile";
 import Option from "../Cards/Option";
@@ -43,6 +44,8 @@ class Dashboard extends Component {
   }
 
   componentDidMount(){
+    document.documentElement.style.setProperty('--main', '#edf2f7');
+    document.documentElement.style.setProperty('--gradient', 'none');
     if (this.props.auth){
     if(!this.state.initialcheck){
       this.check_Profile()
@@ -270,7 +273,9 @@ class Dashboard extends Component {
         this.props.updateAssignment({completed:true}, draggableId)
       }
       if(destination.droppableId === "fail"){
-        console.log("oh no")
+
+        const as =this.props.assignment.assignments.filter(as => parseInt(as.id)===parseInt(draggableId))
+        this.props.deleteTime(as[0].dueday, as[0].id)
       }
   }
 
@@ -279,7 +284,7 @@ class Dashboard extends Component {
     if (this.state.active === "main"){
       return(
         <>
-        <Option color="green" text="create client" parentClickHandler={()=>this.changeBody("client-create")}/>
+        <Option color="green" text="Create client" parentClickHandler={()=>this.changeBody("client-create")}/>
         </>
       )
     }
@@ -339,8 +344,6 @@ class Dashboard extends Component {
      return <Redirect to="/login"/>;
   }
 
-
-
     return (
       <>
       <div className="Dashboard-Container">
@@ -380,7 +383,8 @@ const mapStateToProps = state =>({
   auth: state.AuthReducer,
   profile: state.EmployeeReducer,
   client:state.ClientReducer,
-  time:state.TimeReducer
+  time:state.TimeReducer,
+  assignment: state.AssignmentReducer
 })
 
-export default connect(mapStateToProps,{getProfile, getClients, getTime, updateClient, updateAssignment})(Dashboard);
+export default connect(mapStateToProps,{getProfile, getClients, getTime, updateClient, updateAssignment,deleteTime})(Dashboard);

@@ -56,7 +56,7 @@ class EmployeeAddFile extends Component {
 
     return (
       <form className="file-form" method="post" onSubmit={this.submitHandler}>
-      <p><label htmlFor="file"> Upload file E </label></p>
+      <p><label htmlFor="file"> Upload file </label></p>
       <p><input type="file" id="file" name="files" onChange={this.changeHandler}></input></p>
       <p><label htmlFor="name"> Filename </label></p>
       <p><input type="text" id="name" name="name" value={this.state.name} onChange={this.changeHandler}></input></p>
