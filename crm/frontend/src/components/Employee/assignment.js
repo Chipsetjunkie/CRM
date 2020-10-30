@@ -161,7 +161,7 @@ class Assignment extends Component {
     if (this.props.profiles.profiles){
     return(this.props.profiles.profiles.map((profile,id) => profile.name.includes(this.state.member_query)(
       <Fragment key={profile.id+profile.name} >
-        {!this.state.member.includes(profile.id)?
+        {!this.state.member.includes(profile.id) && profile.name.includes(this.state.member_query) ?
         <div style={{display:"flex",alignItems:"center"}}>
         <img src={profile.pic} width="20px" height="20px"></img>
         <p value={profile.id} onClick={()=>this.updateMember(profile.id,profile.pic)} style={{textTransform:"capitalize"}}>{profile.name}</p>
