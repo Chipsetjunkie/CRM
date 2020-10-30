@@ -4,9 +4,9 @@ node_modules
 package-lock.json
 venv
 my_project_visualized.png
-main.js
+**/main.js
 *.main.js
 migrations
-media/Client/
-media/Common/
-media/DP/
+**/media/Client/
+**/media/Common/
+**/media/DP/
