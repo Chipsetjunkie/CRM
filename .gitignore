@@ -6,6 +6,7 @@ venv
 my_project_visualized.png
 main.js
 *.main.js
-*.png
 migrations
-media
+media/Client/
+media/Common/
+media/DP/
