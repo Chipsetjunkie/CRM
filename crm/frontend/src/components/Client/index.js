@@ -163,7 +163,7 @@ class Client extends Component {
       return "red"
     }
 
-    if (time.getFullYear() === now.getFullYear() && time.getMonth() === now.getMonth()){
+    if (time.getFullYear() === now.getFullYear() && time.getMonth() - now.getMonth() <= 1){
       return "yellow"
     }
 
