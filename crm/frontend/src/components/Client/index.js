@@ -159,7 +159,7 @@ class Client extends Component {
     }
 
 
-    if (time.getFullYear() === now.getFullYear() && (time.getTime()-now.getTime())/86400000 < 3)){
+    if (time.getFullYear() === now.getFullYear() && (time.getTime()-now.getTime())/86400000 < 3){
       return "red"
     }
 
