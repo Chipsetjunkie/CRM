@@ -87,7 +87,7 @@ class Assignment extends Component {
       return false
     }
 
-    if (date.getFullYear() === d.getFullYear() && date.getDate() < d.getDate()){
+    if (date.getFullYear() === d.getFullYear() && date.getMonth() === d.getMonth() && date.getDate() < d.getDate()){
       return false
     }
 
